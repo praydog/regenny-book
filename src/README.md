@@ -95,8 +95,12 @@ if not foo or foo:type():name() ~= "Foo" then
     return
 end
 
+-- Dynamically read the structure memory from the target process.
 print(foo.a) -- prints the value of foo.a
 print(foo.b) -- prints the value of foo.b, will be a string
+
+-- Setter demonstrations
+-- These actually set the values within the target process's structure behind the scenes.
 foo.c = 0x12345 -- sets foo.c to 0x12345
 foo.e = 3.14159 -- sets foo.e to 3.14159
 
