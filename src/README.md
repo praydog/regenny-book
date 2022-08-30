@@ -1,13 +1,15 @@
-This is the regenny wiki.
+This is the [regenny](https://github.com/cursey/regenny) wiki.
 
 # What is regenny?
-regenny is a reverse engineering tool to interactively reconstruct structures and generate usable C++ header files. Header file generation is done by the sister project [sdkgenny](https://github.com/cursey/sdkgenny).
+[regenny](https://github.com/cursey/regenny) is a reverse engineering tool to interactively reconstruct structures and generate usable C++ header files. Header file generation is done by the sister project [sdkgenny](https://github.com/cursey/sdkgenny).
 
 For those familiar with other tools, it is similar to ReClass.NET. It is written in C++.
 
 Structures are defined in plaintext `.gennyfile` rather than manually inserting types into a tree view. This allows for the structures to be version controlled, shared between users, and are human readable from a normal text editor.
 
 It has a Lua scripting interface to easily read and manipulate the structures externally without compiling a separate program. This allows for easy testing, quick prototyping, or even writing a full blown tool in Lua.
+
+Precompiled builds can currently be downloaded from the [Actions](https://github.com/cursey/regenny/actions) page.
 
 # What is a gennyfile?
 gennyfiles are defined in a C/C++-like syntax. They provide the definitions of the types to be viewed in the GUI, generated, and/or reflected upon by the scripting API.
