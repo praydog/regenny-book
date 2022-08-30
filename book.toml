@@ -1,0 +1,11 @@
+[book]
+authors = ["praydog", "cursey"]
+language = "en"
+multilingual = false
+src = "src"
+title = "regenny"
+
+[output.html]
+site-url = "/regenny-book/"
+git-repository-url = "https://github.com/praydog/regenny-book"
+edit-url-template = "https://github.com/praydog/regenny-book/edit/main/{path}"
