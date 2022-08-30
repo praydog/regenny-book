@@ -45,6 +45,9 @@ struct Bar {
 };
 ```
 
+![rexample](https://user-images.githubusercontent.com/2909949/187513097-32107759-4f23-4ac8-8985-e2debf2a09ec.png)
+
+
 ### The corresponding generated C++ structure
 Foo.hpp
 ```cpp
