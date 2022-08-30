@@ -7,7 +7,7 @@ For those familiar with other tools, it is similar to ReClass.NET. It is written
 
 Structures are defined in plaintext `.gennyfile` rather than manually inserting types into a tree view. This allows for the structures to be version controlled, shared between users, and are human readable from a normal text editor.
 
-It has a Lua scripting interface to easily read and manipulate the structures externally without compiling a separate program. This allows for easy testing, quick prototyping, or even writing a full blown tool in Lua.
+It has a Lua scripting interface to easily read and manipulate the structures externally without compiling a separate program. This allows for easy testing, quick prototyping, or even writing a full blown tool in Lua. The [Lua bindings](https://github.com/praydog/luagenny) can be used in a separate Lua installation/embedding, they are not tied to regenny.
 
 Precompiled builds can currently be downloaded from the [Actions](https://github.com/cursey/regenny/actions) page.
 
