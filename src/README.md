@@ -10,7 +10,9 @@ Structures are defined in plaintext `.gennyfile` rather than manually inserting 
 It has a Lua scripting interface to easily read and manipulate the structures externally without compiling a separate program. This allows for easy testing, quick prototyping, or even writing a full blown tool in Lua.
 
 # What is a gennyfile?
-gennyfiles are defined in a C/C++-like syntax. 
+gennyfiles are defined in a C/C++-like syntax. They provide the definitions of the types to be generated.
+
+Structures can be given an explicit size, and fields within the structures can be given explicit offsets without manual padding, and out of order.
 
 Simple C structures can sometimes be directly pasted into a gennyfile.
 
