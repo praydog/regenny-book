@@ -7,6 +7,10 @@
 - [Supported types](general/supported-types.md)
 - [Type metadata](general/metadata.md)
 
+# Examples
+- [Example genny files](examples/examplegenny.md)
+- [Example scripts](examples/examplescripts.md)
+
 # Scripting Reference
 - [Globals](api/globals/README.md)
     - [regenny](api/globals/regenny.md)
