@@ -1,0 +1,3 @@
+# sdkgenny.Struct
+
+## Methods

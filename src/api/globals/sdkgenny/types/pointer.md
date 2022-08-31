@@ -1,0 +1,1 @@
+## `sdkgenny.Pointer`
