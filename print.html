@@ -142,13 +142,13 @@
 <h1 id="what-is-regenny"><a class="header" href="#what-is-regenny">What is regenny?</a></h1>
 <p><a href="https://github.com/cursey/regenny">regenny</a> is a reverse engineering tool to interactively reconstruct structures and generate usable C++ header files. Header file generation is done by the sister project <a href="https://github.com/cursey/sdkgenny">sdkgenny</a>.</p>
 <p>For those familiar with other tools, it is similar to ReClass.NET. It is written in C++.</p>
-<p>Structures are defined in plaintext <code>.gennyfile</code> rather than manually inserting types into a tree view. This allows for the structures to be version controlled, shared between users, and are human readable from a normal text editor.</p>
+<p>Structures are defined in a plaintext <code>.genny</code> file rather than manually inserting types into a tree view. This allows for the structures to be version controlled, shared between users, and are human readable from a normal text editor.</p>
 <p>It has a Lua scripting interface to easily read and manipulate the structures externally without compiling a separate program. This allows for easy testing, quick prototyping, or even writing a full blown tool in Lua. The <a href="https://github.com/praydog/luagenny">Lua bindings</a> can be used in a separate Lua installation/embedding, they are not tied to regenny.</p>
 <p>Precompiled builds can currently be downloaded from the <a href="https://github.com/cursey/regenny/actions">Actions</a> page.</p>
-<h1 id="what-is-a-gennyfile"><a class="header" href="#what-is-a-gennyfile">What is a gennyfile?</a></h1>
-<p>gennyfiles are defined in a C/C++-like syntax. They provide the definitions of the types to be viewed in the GUI, generated, and/or reflected upon by the scripting API.</p>
+<h1 id="what-is-a-genny-file"><a class="header" href="#what-is-a-genny-file">What is a <code>.genny</code> file?</a></h1>
+<p><code>.genny</code> files are defined in a C/C++-like syntax. They provide the definitions of the types to be viewed in the GUI, generated, and/or reflected upon by the scripting API.</p>
 <p>Structures can be given an explicit size, and fields within the structures can be given explicit offsets without manual padding, and out of order.</p>
-<p>Simple C structures can sometimes be directly pasted into a gennyfile.</p>
+<p>Simple C structures can sometimes be directly pasted into a <code>.genny</code> file.</p>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
 <pre><code class="language-c">// Explicitly defined types.
 // Format is type {type_name} {type_size} [[{metadata}]]
@@ -249,8 +249,8 @@ end
 <li>Performing reflection on the structure types</li>
 <li>Reading and writing to the process memory</li>
 <li>Allocating memory in the process</li>
-<li>Parsing another gennyfile separately</li>
-<li>Generating C++ header files from a new gennyfile or SDK instance</li>
+<li>Parsing another <code>.genny</code> file separately</li>
+<li>Generating C++ header files from a new <code>.genny</code> file or SDK instance</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="supported-types"><a class="header" href="#supported-types">Supported types</a></h1>
 <ul>
