@@ -5,18 +5,18 @@ This is the [regenny](https://github.com/cursey/regenny) wiki.
 
 For those familiar with other tools, it is similar to ReClass.NET. It is written in C++.
 
-Structures are defined in plaintext `.gennyfile` rather than manually inserting types into a tree view. This allows for the structures to be version controlled, shared between users, and are human readable from a normal text editor.
+Structures are defined in a plaintext `.genny` file rather than manually inserting types into a tree view. This allows for the structures to be version controlled, shared between users, and are human readable from a normal text editor.
 
 It has a Lua scripting interface to easily read and manipulate the structures externally without compiling a separate program. This allows for easy testing, quick prototyping, or even writing a full blown tool in Lua. The [Lua bindings](https://github.com/praydog/luagenny) can be used in a separate Lua installation/embedding, they are not tied to regenny.
 
 Precompiled builds can currently be downloaded from the [Actions](https://github.com/cursey/regenny/actions) page.
 
-# What is a gennyfile?
-gennyfiles are defined in a C/C++-like syntax. They provide the definitions of the types to be viewed in the GUI, generated, and/or reflected upon by the scripting API.
+# What is a `.genny` file?
+`.genny` files are defined in a C/C++-like syntax. They provide the definitions of the types to be viewed in the GUI, generated, and/or reflected upon by the scripting API.
 
 Structures can be given an explicit size, and fields within the structures can be given explicit offsets without manual padding, and out of order.
 
-Simple C structures can sometimes be directly pasted into a gennyfile.
+Simple C structures can sometimes be directly pasted into a `.genny` file.
 
 ## Example
 ```c
@@ -130,5 +130,5 @@ In addition to simply reading/modifying structures, the Lua API allows for more 
 * Performing reflection on the structure types
 * Reading and writing to the process memory
 * Allocating memory in the process
-* Parsing another gennyfile separately
-* Generating C++ header files from a new gennyfile or SDK instance
+* Parsing another `.genny` file separately
+* Generating C++ header files from a new `.genny` file or SDK instance
