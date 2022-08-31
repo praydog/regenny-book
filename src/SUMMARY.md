@@ -14,6 +14,6 @@
 - [Types](api/types/README.md)
     - [ReGenny](api/types/regenny.md)
     - [Process](api/types/process.md)
-    - [WindowsProcess](api/types/windowsorocess.md)
+    - [WindowsProcess](api/types/windowsprocess.md)
     - [ProcessModule](api/types/processmodule.md)
     - [ProcessAllocation](api/types/processallocation.md)
