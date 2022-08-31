@@ -1,3 +1,3 @@
 # regenny
 
-This is the global api for [ReGenny](types/ReGenny.md).
+This is the global api for [ReGenny](types/regenny.md).

@@ -39,4 +39,4 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 
 ### `self:process()`
 
-Returns the current [Process](Process.md). Gets upcasted to a [WindowsProcess](WindowsProcess.md) if the process is a Windows process.
+Returns the current [Process](process.md). Gets upcasted to a [WindowsProcess](windowsprocess.md) if the process is a Windows process.
