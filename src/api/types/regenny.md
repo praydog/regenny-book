@@ -4,6 +4,10 @@ This is the class used to access the ReGenny API. It can be accessed through the
 
 ## Methods
 
+### `self:process()`
+
+Returns the current [Process](process.md). Gets upcasted to a [WindowsProcess](windowsprocess.md) if the process is a Windows process.
+
 ### `self:address()`
 
 Returns the current address set in the GUI.
@@ -13,6 +17,10 @@ Returns the current address set in the GUI.
 Returns the current `sdkgenny.Type` set in the GUI. 
 
 Can usually be casted to an `sdkgenny.Struct` with `self:type():as_struct()`.
+
+### `self:sdk()`
+
+Returns the current `sdkgenny.Sdk` for the current project (generated from the editor).
 
 ### `self:overlay()`
 
@@ -41,7 +49,3 @@ print(string.format("%x", baz:address()))
 print(baz.hello) -- Prints "Hello, world!", which is the value pointed to by baz.hello
 baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 ```
-
-### `self:process()`
-
-Returns the current [Process](process.md). Gets upcasted to a [WindowsProcess](windowsprocess.md) if the process is a Windows process.
