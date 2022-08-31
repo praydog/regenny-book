@@ -8,9 +8,9 @@
 - [Type metadata](general/metadata.md)
 
 # Scripting Reference
-- [APIs](api/README.md)
-    - [regenny](api/regenny.md)
-    - [sdkgenny](api/sdkgenny.md)
+- [Globals](api/globals/README.md)
+    - [regenny](api/globals/regenny.md)
+    - [sdkgenny](api/globals/sdkgenny.md)
 - [Types](api/types/README.md)
     - [ReGenny](api/types/regenny.md)
     - [Process](api/types/Process.md)
