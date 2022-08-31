@@ -1,6 +1,6 @@
 # ReGenny
 
-This is the class used to access the ReGenny API. It can be access through the global `regenny` variable.
+This is the class used to access the ReGenny API. It can be accessed through the global `regenny` variable.
 
 ## Methods
 
@@ -8,6 +8,11 @@ This is the class used to access the ReGenny API. It can be access through the g
 
 Returns the current address set in the GUI.
 
+### `self:type()`
+
+Returns the current `sdkgenny.Type` set in the GUI. 
+
+Can usually be casted to an `sdkgenny.Struct` with `self:type():as_struct()`.
 
 ### `self:overlay()`
 
