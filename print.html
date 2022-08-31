@@ -297,6 +297,34 @@ type char 1 // no metadata
 <p>This is the global API for <a href="https://github.com/praydog/luagenny">luagenny</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="types"><a class="header" href="#types">Types</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="regenny-1"><a class="header" href="#regenny-1">ReGenny</a></h1>
+<p>This is the class used to access the ReGenny API. It can be access through the global <code>regenny</code> variable.</p>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h3 id="selfaddress"><a class="header" href="#selfaddress"><code>self:address()</code></a></h3>
+<p>Returns the current address set in the GUI.</p>
+<h3 id="selfoverlay"><a class="header" href="#selfoverlay"><code>self:overlay()</code></a></h3>
+<p>Constructs and returns an <code>sdkgenny.StructOverlay</code> using the address and current structure set in the GUI.</p>
+<p>Any member reads or writes will be done from/to the process memory dynamically on each access.</p>
+<p>Example:</p>
+<pre><code class="language-lua">local baz = regenny:overlay()
+if baz == nil then
+    print(&quot;Cannot continue test, overlay does not exist.&quot;)
+    return false
+end
+
+if baz:type():name() ~= &quot;Baz&quot; then
+    print(&quot;Cannot continue test, selected type is not Baz&quot;)
+    return false
+end
+
+print(baz)
+print(baz:type())
+print(string.format(&quot;%x&quot;, baz:address()))
+
+print(baz.hello) -- Prints &quot;Hello, world!&quot;, which is the value pointed to by baz.hello
+baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
+</code></pre>
+<h3 id="selfprocess"><a class="header" href="#selfprocess"><code>self:process()</code></a></h3>
+<p>Returns the current <a href="api/types/Process.html">Process</a>. Gets upcasted to a <a href="api/types/WindowsProcess.html">WindowsProcess</a> if the process is a Windows process.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="process"><a class="header" href="#process">Process</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="processallocation"><a class="header" href="#processallocation">ProcessAllocation</a></h1>
 
