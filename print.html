@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Usage</li><li class="chapter-item expanded "><a href="general/supported-types.html"><strong aria-hidden="true">1.</strong> Supported types</a></li><li class="chapter-item expanded "><a href="general/metadata.html"><strong aria-hidden="true">2.</strong> Type metadata</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripting Reference</li><li class="chapter-item expanded "><a href="api/index.html"><strong aria-hidden="true">3.</strong> APIs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/regenny.html"><strong aria-hidden="true">3.1.</strong> regenny</a></li><li class="chapter-item expanded "><a href="api/sdkgenny.html"><strong aria-hidden="true">3.2.</strong> sdkgenny</a></li></ol></li><li class="chapter-item expanded "><a href="api/types/index.html"><strong aria-hidden="true">4.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/types/regenny.html"><strong aria-hidden="true">4.1.</strong> ReGenny</a></li><li class="chapter-item expanded "><a href="api/types/Process.html"><strong aria-hidden="true">4.2.</strong> Process</a></li><li class="chapter-item expanded "><a href="api/types/WindowsProcess.html"><strong aria-hidden="true">4.3.</strong> WindowsProcess</a></li><li class="chapter-item expanded "><a href="api/types/ProcessModule.html"><strong aria-hidden="true">4.4.</strong> ProcessModule</a></li><li class="chapter-item expanded "><a href="api/types/ProcessAllocation.html"><strong aria-hidden="true">4.5.</strong> ProcessAllocation</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Usage</li><li class="chapter-item expanded "><a href="general/supported-types.html"><strong aria-hidden="true">1.</strong> Supported types</a></li><li class="chapter-item expanded "><a href="general/metadata.html"><strong aria-hidden="true">2.</strong> Type metadata</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripting Reference</li><li class="chapter-item expanded "><a href="api/globals/index.html"><strong aria-hidden="true">3.</strong> Globals</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/regenny.html"><strong aria-hidden="true">3.1.</strong> regenny</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny.html"><strong aria-hidden="true">3.2.</strong> sdkgenny</a></li></ol></li><li class="chapter-item expanded "><a href="api/types/index.html"><strong aria-hidden="true">4.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/types/regenny.html"><strong aria-hidden="true">4.1.</strong> ReGenny</a></li><li class="chapter-item expanded "><a href="api/types/Process.html"><strong aria-hidden="true">4.2.</strong> Process</a></li><li class="chapter-item expanded "><a href="api/types/WindowsProcess.html"><strong aria-hidden="true">4.3.</strong> WindowsProcess</a></li><li class="chapter-item expanded "><a href="api/types/ProcessModule.html"><strong aria-hidden="true">4.4.</strong> ProcessModule</a></li><li class="chapter-item expanded "><a href="api/types/ProcessAllocation.html"><strong aria-hidden="true">4.5.</strong> ProcessAllocation</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -269,14 +269,34 @@ end
 <li>Bring your own external types</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="type-metadata"><a class="header" href="#type-metadata">Type metadata</a></h1>
+<p>Types and variables can have a metadata attached to them. This metadata is used to determine how the type is displayed in the GUI and read by the Lua API.</p>
+<p>For types, the format is <code>type {type_name} {size} [[{metadata}]]</code>.</p>
+<p>For variables, the format is <code>{type_name} {variable_name} [[{metadata}]]</code>.</p>
 <p>Example:</p>
 <pre><code class="language-c">type int 4 [[i32]] // i32 metadata, will be displayed as a signed 32-bit integer in the GUI
 type float 4 [[f32]] // f32 metadata, will be displayed as a 32-bit float in the GUI
 type char 1 // no metadata
+
+struct Foo {
+    // will be displayed as a signed 32-bit integer in the GUI, implicit metadata
+    int a;
+    // utf8* metadata, will be displayed as a utf8 string in the GUI
+    // must be explicitly specified, as the type is a pointer to 1 byte
+    char* b [[utf8*]]
+    // f32 metadata, will be displayed as a 32-bit float in the GUI
+    float c
+    // metadata does not need to be specified for this pointer
+    int* d
+};
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="apis"><a class="header" href="#apis">APIs</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="globals"><a class="header" href="#globals">Globals</a></h2>
+<p>These can be accessed from anywhere in a script.</p>
+<ul>
+<li><code>regenny</code> - The global API for <a href="api/globals/types/regenny.html">ReGenny</a>.</li>
+<li><code>sdkgenny</code> - The global API for <a href="https://github.com/praydog/luagenny">luagenny</a>.</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="regenny"><a class="header" href="#regenny">regenny</a></h1>
-<p>This is the global api for <a href="api/types/regenny.html">ReGenny</a>.</p>
+<p>This is the global API for <a href="api/globals/types/regenny.html">ReGenny</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sdkgenny"><a class="header" href="#sdkgenny">sdkgenny</a></h1>
 <p>This is the global API for <a href="https://github.com/praydog/luagenny">luagenny</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="types"><a class="header" href="#types">Types</a></h2>
