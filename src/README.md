@@ -132,19 +132,3 @@ In addition to simply reading/modifying structures, the Lua API allows for more 
 * Allocating memory in the process
 * Parsing another gennyfile separately
 * Generating C++ header files from a new gennyfile or SDK instance
-
-# Supported types:
-
-* Namespaces
-* Enums
-* Structs
-* Classes
-* Function prototypes
-* Static function prototypes
-* Bitfields
-* Arrays
-* Multi-dimensional arrays
-* Pointers
-* Namespaces can be nested within each other
-* Structs, enums and classes can be nested within other structs/classes
-* Bring your own external types
