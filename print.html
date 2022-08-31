@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Usage</li><li class="chapter-item expanded "><a href="general/supported-types.html"><strong aria-hidden="true">1.</strong> Supported types</a></li><li class="chapter-item expanded "><a href="general/metadata.html"><strong aria-hidden="true">2.</strong> Type metadata</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripting Reference</li><li class="chapter-item expanded "><a href="api/globals/index.html"><strong aria-hidden="true">3.</strong> Globals</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/regenny.html"><strong aria-hidden="true">3.1.</strong> regenny</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny.html"><strong aria-hidden="true">3.2.</strong> sdkgenny</a></li></ol></li><li class="chapter-item expanded "><a href="api/types/index.html"><strong aria-hidden="true">4.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/types/regenny.html"><strong aria-hidden="true">4.1.</strong> ReGenny</a></li><li class="chapter-item expanded "><a href="api/types/process.html"><strong aria-hidden="true">4.2.</strong> Process</a></li><li class="chapter-item expanded "><a href="api/types/windowsprocess.html"><strong aria-hidden="true">4.3.</strong> WindowsProcess</a></li><li class="chapter-item expanded "><a href="api/types/processmodule.html"><strong aria-hidden="true">4.4.</strong> ProcessModule</a></li><li class="chapter-item expanded "><a href="api/types/processallocation.html"><strong aria-hidden="true">4.5.</strong> ProcessAllocation</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Usage</li><li class="chapter-item expanded "><a href="general/supported-types.html"><strong aria-hidden="true">1.</strong> Supported types</a></li><li class="chapter-item expanded "><a href="general/metadata.html"><strong aria-hidden="true">2.</strong> Type metadata</a></li><li class="chapter-item expanded affix "><li class="part-title">Examples</li><li class="chapter-item expanded "><a href="examples/examplegenny.html"><strong aria-hidden="true">3.</strong> Example genny files</a></li><li class="chapter-item expanded "><a href="examples/examplescripts.html"><strong aria-hidden="true">4.</strong> Example scripts</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripting Reference</li><li class="chapter-item expanded "><a href="api/globals/index.html"><strong aria-hidden="true">5.</strong> Globals</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/regenny.html"><strong aria-hidden="true">5.1.</strong> regenny</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny.html"><strong aria-hidden="true">5.2.</strong> sdkgenny</a></li></ol></li><li class="chapter-item expanded "><a href="api/types/index.html"><strong aria-hidden="true">6.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/types/regenny.html"><strong aria-hidden="true">6.1.</strong> ReGenny</a></li><li class="chapter-item expanded "><a href="api/types/process.html"><strong aria-hidden="true">6.2.</strong> Process</a></li><li class="chapter-item expanded "><a href="api/types/windowsprocess.html"><strong aria-hidden="true">6.3.</strong> WindowsProcess</a></li><li class="chapter-item expanded "><a href="api/types/processmodule.html"><strong aria-hidden="true">6.4.</strong> ProcessModule</a></li><li class="chapter-item expanded "><a href="api/types/processallocation.html"><strong aria-hidden="true">6.5.</strong> ProcessAllocation</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -288,6 +288,48 @@ struct Foo {
     // metadata does not need to be specified for this pointer
     int* d
 };
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="example-genny-files"><a class="header" href="#example-genny-files">Example genny files</a></h1>
+<ul>
+<li><a href="https://github.com/praydog/REFramework/tree/master/reversing">https://github.com/praydog/REFramework/tree/master/reversing</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="example-scripts"><a class="header" href="#example-scripts">Example scripts</a></h1>
+<ul>
+<li><a href="https://github.com/cursey/regenny/blob/master/examples/test.lua">https://github.com/cursey/regenny/blob/master/examples/test.lua</a></li>
+<li><a href="https://github.com/cursey/regenny/pull/10">https://github.com/cursey/regenny/pull/10</a></li>
+</ul>
+<pre><code class="language-lua">-- An overlay is a special Lua type that allows access to the memory of a structure.
+-- It has index and newindex metamethods that access to the members of the structure
+-- seamlessly, with no magic numbers/offsets, completely externally.
+local foo = regenny:overlay()
+if not foo or foo:type():name() ~= &quot;Foo&quot; then
+    print(&quot;Overlay is not a Foo, cannot use this script.&quot;)
+    return
+end
+
+-- Dynamically read the structure memory from the target process.
+print(foo.a) -- prints the value of foo.a
+print(foo.b) -- prints the value of foo.b, will be a string
+
+-- Setter demonstrations
+-- These actually set the values within the target process's structure behind the scenes.
+foo.c = 0x12345 -- sets foo.c to 0x12345
+foo.e = 3.14159 -- sets foo.e to 3.14159
+
+local bar = foo.bar -- gets the value of foo.bar
+
+-- Because pointers can be null.
+if bar ~= nil then
+    bar.b = 0x1337 -- sets bar.b to 0x1337
+    bar.c = bar.b + 0x100 -- sets bar.c to bar.b + 0x100
+
+    print(bar.parent:ptr() == foo:address()) -- prints true if bar.parent is equal to foo
+    if bar.parent:ptr() ~= foo:address() then
+        -- sets bar.parent to foo
+        -- pointers can be explicitly written to with a raw integer value
+        bar.parent = foo:address()
+    end
+end
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="globals"><a class="header" href="#globals">Globals</a></h2>
 <p>These can be accessed from anywhere in a script.</p>
