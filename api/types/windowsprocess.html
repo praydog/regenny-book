@@ -145,6 +145,10 @@
 <h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
 <h3 id="selfget_typenameobj-number"><a class="header" href="#selfget_typenameobj-number"><code>self:get_typename(obj: number)</code></a></h3>
 <p>Returns the RTTI name of the given object at the given address.</p>
+<h3 id="selfallocate_rwxaddress-number-size-number"><a class="header" href="#selfallocate_rwxaddress-number-size-number"><code>self:allocate_rwx(address: number, size: number)</code></a></h3>
+<p>Wrapper over <a href="process.html#selfallocateaddress-number-size-number-flags-number">Process.allocate</a> that allocates a region of memory with the <code>PAGE_EXECUTE_READWRITE</code> protection.</p>
+<h3 id="selfprotect_rwxaddress-number-size-number"><a class="header" href="#selfprotect_rwxaddress-number-size-number"><code>self:protect_rwx(address: number, size: number)</code></a></h3>
+<p>Wrapper over <a href="process.html#selfprotectaddress-number-size-number-flags-number">Process.protect</a> that changes the protection of a region of memory to <code>PAGE_EXECUTE_READWRITE</code>.</p>
 
                     </main>
 

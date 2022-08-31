@@ -399,10 +399,34 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 <h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
 <h3 id="selfget_typenameobj-number"><a class="header" href="#selfget_typenameobj-number"><code>self:get_typename(obj: number)</code></a></h3>
 <p>Returns the RTTI name of the given object at the given address.</p>
+<h3 id="selfallocate_rwxaddress-number-size-number"><a class="header" href="#selfallocate_rwxaddress-number-size-number"><code>self:allocate_rwx(address: number, size: number)</code></a></h3>
+<p>Wrapper over <a href="api/types/process.html#selfallocateaddress-number-size-number-flags-number">Process.allocate</a> that allocates a region of memory with the <code>PAGE_EXECUTE_READWRITE</code> protection.</p>
+<h3 id="selfprotect_rwxaddress-number-size-number"><a class="header" href="#selfprotect_rwxaddress-number-size-number"><code>self:protect_rwx(address: number, size: number)</code></a></h3>
+<p>Wrapper over <a href="api/types/process.html#selfprotectaddress-number-size-number-flags-number">Process.protect</a> that changes the protection of a region of memory to <code>PAGE_EXECUTE_READWRITE</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="processmodule"><a class="header" href="#processmodule">ProcessModule</a></h1>
-<h2 id="methods-3"><a class="header" href="#methods-3">Methods</a></h2>
+<h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
+<h3 id="selfname"><a class="header" href="#selfname"><code>self.name</code></a></h3>
+<p>The name of the module.</p>
+<h3 id="selfstart"><a class="header" href="#selfstart"><code>self.start</code></a></h3>
+<p>The base address of the module.</p>
+<h3 id="selfend"><a class="header" href="#selfend"><code>self.end</code></a></h3>
+<p>The end address of the module.</p>
+<h3 id="selfsize"><a class="header" href="#selfsize"><code>self.size</code></a></h3>
+<p>The size of the module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="processallocation"><a class="header" href="#processallocation">ProcessAllocation</a></h1>
-<h2 id="methods-4"><a class="header" href="#methods-4">Methods</a></h2>
+<h2 id="fields-1"><a class="header" href="#fields-1">Fields</a></h2>
+<h3 id="selfstart-1"><a class="header" href="#selfstart-1"><code>self.start</code></a></h3>
+<p>The base address of the allocation.</p>
+<h3 id="selfend-1"><a class="header" href="#selfend-1"><code>self.end</code></a></h3>
+<p>The end address of the allocation.</p>
+<h3 id="selfsize-1"><a class="header" href="#selfsize-1"><code>self.size</code></a></h3>
+<p>The size of the allocation.</p>
+<h3 id="selfread"><a class="header" href="#selfread"><code>self.read</code></a></h3>
+<p>Whether the allocation is readable.</p>
+<h3 id="selfwrite"><a class="header" href="#selfwrite"><code>self.write</code></a></h3>
+<p>Whether the allocation is writable.</p>
+<h3 id="selfexecute"><a class="header" href="#selfexecute"><code>self.execute</code></a></h3>
+<p>Whether the allocation is executable.</p>
 
                     </main>
 
