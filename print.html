@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Usage</li><li class="chapter-item expanded "><a href="general/supported-types.html"><strong aria-hidden="true">1.</strong> Supported types</a></li><li class="chapter-item expanded "><a href="general/metadata.html"><strong aria-hidden="true">2.</strong> Type metadata</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripting Reference</li><li class="chapter-item expanded "><a href="api/globals/index.html"><strong aria-hidden="true">3.</strong> Globals</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/regenny.html"><strong aria-hidden="true">3.1.</strong> regenny</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny.html"><strong aria-hidden="true">3.2.</strong> sdkgenny</a></li></ol></li><li class="chapter-item expanded "><a href="api/types/index.html"><strong aria-hidden="true">4.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/types/regenny.html"><strong aria-hidden="true">4.1.</strong> ReGenny</a></li><li class="chapter-item expanded "><a href="api/types/Process.html"><strong aria-hidden="true">4.2.</strong> Process</a></li><li class="chapter-item expanded "><a href="api/types/WindowsProcess.html"><strong aria-hidden="true">4.3.</strong> WindowsProcess</a></li><li class="chapter-item expanded "><a href="api/types/ProcessModule.html"><strong aria-hidden="true">4.4.</strong> ProcessModule</a></li><li class="chapter-item expanded "><a href="api/types/ProcessAllocation.html"><strong aria-hidden="true">4.5.</strong> ProcessAllocation</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Usage</li><li class="chapter-item expanded "><a href="general/supported-types.html"><strong aria-hidden="true">1.</strong> Supported types</a></li><li class="chapter-item expanded "><a href="general/metadata.html"><strong aria-hidden="true">2.</strong> Type metadata</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripting Reference</li><li class="chapter-item expanded "><a href="api/globals/index.html"><strong aria-hidden="true">3.</strong> Globals</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/regenny.html"><strong aria-hidden="true">3.1.</strong> regenny</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny.html"><strong aria-hidden="true">3.2.</strong> sdkgenny</a></li></ol></li><li class="chapter-item expanded "><a href="api/types/index.html"><strong aria-hidden="true">4.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/types/regenny.html"><strong aria-hidden="true">4.1.</strong> ReGenny</a></li><li class="chapter-item expanded "><a href="api/types/process.html"><strong aria-hidden="true">4.2.</strong> Process</a></li><li class="chapter-item expanded "><a href="api/types/windowsorocess.html"><strong aria-hidden="true">4.3.</strong> WindowsProcess</a></li><li class="chapter-item expanded "><a href="api/types/processmodule.html"><strong aria-hidden="true">4.4.</strong> ProcessModule</a></li><li class="chapter-item expanded "><a href="api/types/processallocation.html"><strong aria-hidden="true">4.5.</strong> ProcessAllocation</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -333,9 +333,72 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 <h3 id="selfprocess"><a class="header" href="#selfprocess"><code>self:process()</code></a></h3>
 <p>Returns the current <a href="api/types/process.html">Process</a>. Gets upcasted to a <a href="api/types/windowsprocess.html">WindowsProcess</a> if the process is a Windows process.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="process"><a class="header" href="#process">Process</a></h1>
+<p>Class referring to the currently attached process in regenny.</p>
+<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
+<h3 id="selfprotectaddress-number-size-number-flags-number"><a class="header" href="#selfprotectaddress-number-size-number-flags-number"><code>self:protect(address: number, size: number, flags: number)</code></a></h3>
+<p>Modifies the protection of a region of memory in the process.</p>
+<p>On Windows, the <code>flags</code> are the same as the <code>flNewProtect</code> flags in <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotectex">VirtualProtectEx</a>.</p>
+<p>Returns the old protection flags of the region.</p>
+<h3 id="selfallocateaddress-number-size-number-flags-number"><a class="header" href="#selfallocateaddress-number-size-number-flags-number"><code>self:allocate(address: number, size: number, flags: number)</code></a></h3>
+<p>Allocates a region of memory in the process.</p>
+<p><code>address</code> is optional, set it to 0 to let the OS choose the address.</p>
+<p>On Windows, the <code>flags</code> are the same as the <code>flProtect</code> flags in <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex">VirtualAllocEx</a>.</p>
+<h3 id="selfget_module_withinaddress-number"><a class="header" href="#selfget_module_withinaddress-number"><code>self:get_module_within(address: number)</code></a></h3>
+<p>Returns the <a href="api/types/processmodule.html">ProcessModule</a> that contains the given address.</p>
+<h3 id="selfget_modulename-string"><a class="header" href="#selfget_modulename-string"><code>self:get_module(name: string)</code></a></h3>
+<p>Returns the <a href="api/types/processmodule.html">ProcessModule</a> with the given name.</p>
+<h3 id="selfmodules"><a class="header" href="#selfmodules"><code>self:modules()</code></a></h3>
+<p>Returns a list of <a href="api/types/processmodule.html">ProcessModule</a>s in the process.</p>
+<h3 id="selfallocations"><a class="header" href="#selfallocations"><code>self:allocations()</code></a></h3>
+<p>Returns a list of <a href="api/types/processallocation.html">ProcessAllocation</a>s in the process.</p>
+<h3 id="selfread_int8address-number"><a class="header" href="#selfread_int8address-number"><code>self:read_int8(address: number)</code></a></h3>
+<p>Reads a <code>int8_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_int16address-number"><a class="header" href="#selfread_int16address-number"><code>self:read_int16(address: number)</code></a></h3>
+<p>Reads a <code>int16_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_int32address-number"><a class="header" href="#selfread_int32address-number"><code>self:read_int32(address: number)</code></a></h3>
+<p>Reads a <code>int32_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_int64address-number"><a class="header" href="#selfread_int64address-number"><code>self:read_int64(address: number)</code></a></h3>
+<p>Reads a <code>int64_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_uint8address-number"><a class="header" href="#selfread_uint8address-number"><code>self:read_uint8(address: number)</code></a></h3>
+<p>Reads a <code>uint8_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_uint16address-number"><a class="header" href="#selfread_uint16address-number"><code>self:read_uint16(address: number)</code></a></h3>
+<p>Reads a <code>uint16_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_uint32address-number"><a class="header" href="#selfread_uint32address-number"><code>self:read_uint32(address: number)</code></a></h3>
+<p>Reads a <code>uint32_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_uint64address-number"><a class="header" href="#selfread_uint64address-number"><code>self:read_uint64(address: number)</code></a></h3>
+<p>Reads a <code>uint64_t</code> from the process memory at the given address.</p>
+<h3 id="selfread_floataddress-number"><a class="header" href="#selfread_floataddress-number"><code>self:read_float(address: number)</code></a></h3>
+<p>Reads a <code>float</code> from the process memory at the given address.</p>
+<h3 id="selfread_doubleaddress-number"><a class="header" href="#selfread_doubleaddress-number"><code>self:read_double(address: number)</code></a></h3>
+<p>Reads a <code>double</code> from the process memory at the given address.</p>
+<h3 id="selfread_stringaddress-number"><a class="header" href="#selfread_stringaddress-number"><code>self:read_string(address: number)</code></a></h3>
+<p>Reads a <code>char*</code> from the process memory at the given address.</p>
+<p>Size is automatically deduced using a <code>strlen</code>-like algorithm.</p>
+<h3 id="selfwrite_int8address-number-value-number"><a class="header" href="#selfwrite_int8address-number-value-number"><code>self:write_int8(address: number, value: number)</code></a></h3>
+<p>Writes a <code>int8_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_int16address-number-value-number"><a class="header" href="#selfwrite_int16address-number-value-number"><code>self:write_int16(address: number, value: number)</code></a></h3>
+<p>Writes a <code>int16_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_int32address-number-value-number"><a class="header" href="#selfwrite_int32address-number-value-number"><code>self:write_int32(address: number, value: number)</code></a></h3>
+<p>Writes a <code>int32_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_int64address-number-value-number"><a class="header" href="#selfwrite_int64address-number-value-number"><code>self:write_int64(address: number, value: number)</code></a></h3>
+<p>Writes a <code>int64_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_uint8address-number-value-number"><a class="header" href="#selfwrite_uint8address-number-value-number"><code>self:write_uint8(address: number, value: number)</code></a></h3>
+<p>Writes a <code>uint8_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_uint16address-number-value-number"><a class="header" href="#selfwrite_uint16address-number-value-number"><code>self:write_uint16(address: number, value: number)</code></a></h3>
+<p>Writes a <code>uint16_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_uint32address-number-value-number"><a class="header" href="#selfwrite_uint32address-number-value-number"><code>self:write_uint32(address: number, value: number)</code></a></h3>
+<p>Writes a <code>uint32_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_uint64address-number-value-number"><a class="header" href="#selfwrite_uint64address-number-value-number"><code>self:write_uint64(address: number, value: number)</code></a></h3>
+<p>Writes a <code>uint64_t</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_floataddress-number-value-number"><a class="header" href="#selfwrite_floataddress-number-value-number"><code>self:write_float(address: number, value: number)</code></a></h3>
+<p>Writes a <code>float</code> to the process memory at the given address.</p>
+<h3 id="selfwrite_doubleaddress-number-value-number"><a class="header" href="#selfwrite_doubleaddress-number-value-number"><code>self:write_double(address: number, value: number)</code></a></h3>
+<p>Writes a <code>double</code> to the process memory at the given address.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="windowsprocess"><a class="header" href="#windowsprocess">WindowsProcess</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="processmodule"><a class="header" href="#processmodule">ProcessModule</a></h1>
+<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="processallocation"><a class="header" href="#processallocation">ProcessAllocation</a></h1>
+<h2 id="methods-3"><a class="header" href="#methods-3">Methods</a></h2>
 
                     </main>
 
