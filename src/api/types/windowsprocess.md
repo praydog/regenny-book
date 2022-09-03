@@ -15,3 +15,5 @@ Wrapper over [Process.allocate](process.md#selfallocateaddress-number-size-numbe
 ### `self:protect_rwx(address: number, size: number)`
 
 Wrapper over [Process.protect](process.md#selfprotectaddress-number-size-number-flags-number) that changes the protection of a region of memory to `PAGE_EXECUTE_READWRITE`.
+
+### `self:create_remote_thread(address: number, param: number)`
