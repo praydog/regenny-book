@@ -1,3 +1,4 @@
 # Example genny files
 
-* [https://github.com/praydog/REFramework/tree/master/reversing](https://github.com/praydog/REFramework/tree/master/reversing)
+* [REFramework](https://github.com/praydog/REFramework/tree/master/reversing)
+* [AutomataMP](https://github.com/praydog/AutomataMP/tree/main/reversing)
