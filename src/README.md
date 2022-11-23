@@ -49,6 +49,8 @@ struct Bar {
 
 ![rexample](https://user-images.githubusercontent.com/2909949/187513097-32107759-4f23-4ac8-8985-e2debf2a09ec.png)
 
+The above image is slightly out of date. There is no longer a text editor inside ReGenny itself. `.genny` files must be opened within ReGenny and edited with an external text editor now. Reason being ImGui's text editor functionality was not that great and caused frustrating issues.
+
 
 ### The corresponding generated C++ structure
 Foo.hpp
