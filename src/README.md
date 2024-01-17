@@ -11,6 +11,15 @@ It has a Lua scripting interface to easily read and manipulate the structures ex
 
 Precompiled builds can currently be downloaded from the [Actions](https://github.com/cursey/regenny/actions) page.
 
+# Getting started
+To get started using ReGenny, create a project by clicking `File->New` on the top menu bar and entering a name in the dialog box. This will create a `.json` project file and a `.genny` file.
+
+After that, you can click `Action->Attach` to attach to a running process and then you can edit the `.genny` file created earlier to start reverse engineering structures.
+
+Once you're finished, you can click `Action->Generate SDK` to generate corresponding C++ files.
+
+ReGenny is a _very_ powerful tool has many other features, but this should give you a good idea on how to get started with reverse engineering using ReGenny.
+
 # What is a `.genny` file?
 `.genny` files are defined in a C/C++-like syntax. They provide the definitions of the types to be viewed in the GUI, generated, and/or reflected upon by the scripting API.
 
@@ -51,7 +60,6 @@ struct Bar {
 
 The above image is slightly out of date. There is no longer a text editor inside ReGenny itself. `.genny` files must be opened within ReGenny and edited with an external text editor now. Reason being ImGui's text editor functionality was not that great and caused frustrating issues.
 
-
 ### The corresponding generated C++ structure
 Foo.hpp
 ```cpp
@@ -89,7 +97,6 @@ struct Bar {
 ```
 
 ### Accessing this structure from Lua
-
 Before using this script, the structure in the GUI has to be set to `Foo`, regenny must be attached to a process, and the address of the structure must be set in the GUI.
 
 ```lua
