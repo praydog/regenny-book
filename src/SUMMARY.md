@@ -1,11 +1,10 @@
 # Summary
-
 [Introduction](README.md)
 
 # Usage
-
 - [Supported types](general/supported-types.md)
 - [Type metadata](general/metadata.md)
+- [Addresses](general/address.md)
 
 # Examples
 - [Example genny files](examples/examplegenny.md)
