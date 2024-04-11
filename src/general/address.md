@@ -11,7 +11,13 @@ For example, on Windows if your process is based at `0x180000000`, then you can 
 ## Relative addresses
 Relative addresses can also be used. The syntax looks something like this: `<module_name>+offset->offset->offset`.
 
-On Windows, They're relative to a DLL (Dynamic-Link Library) or the EXE name of the attached app (basically, any loaded module, including itself).
+Module names can contain full paths or partial paths, as long as it ends with the input path.
+For example, say we want to get the base address of a module loaded as `C:\Windows\System32\kernel32.dll`, we could do one of the following:
+* `<kernel32.dll>+0x0` (Partial ending)
+* `<System32\kernel32.dll>` (Partial ending)
+* `<C:\Windows\System32\kernel32.dll>+0x0` (Full path)
+
+On Windows, Addresses are relative to a loaded DLL's (Dynamic-Link Library) name or EXE (Executable) name of the attached app (basically, any loaded module, including itself).
 
 For example, to get the start of code, after the PE header, you can enter something like:
 `<app.exe>+0x1000`.
