@@ -148,7 +148,14 @@
 <p>For example, on Windows if your process is based at <code>0x180000000</code>, then you can input the address <code>0x180000000</code> to see the PE (MZ) header and <code>0x180001000</code> to see the start of code (or whatever else is after the PE header, assuming the PE header is <code>0x1000</code> bytes in size).</p>
 <h2 id="relative-addresses"><a class="header" href="#relative-addresses">Relative addresses</a></h2>
 <p>Relative addresses can also be used. The syntax looks something like this: <code>&lt;module_name&gt;+offset-&gt;offset-&gt;offset</code>.</p>
-<p>On Windows, They're relative to a DLL (Dynamic-Link Library) or the EXE name of the attached app (basically, any loaded module, including itself).</p>
+<p>Module names can contain full paths or partial paths, as long as it ends with the input path.
+For example, say we want to get the base address of a module loaded as <code>C:\Windows\System32\kernel32.dll</code>, we could do one of the following:</p>
+<ul>
+<li><code>&lt;kernel32.dll&gt;+0x0</code> (Partial ending)</li>
+<li><code>&lt;System32\kernel32.dll&gt;</code> (Partial ending)</li>
+<li><code>&lt;C:\Windows\System32\kernel32.dll&gt;+0x0</code> (Full path)</li>
+</ul>
+<p>On Windows, Addresses are relative to a loaded DLL's (Dynamic-Link Library) name or EXE (Executable) name of the attached app (basically, any loaded module, including itself).</p>
 <p>For example, to get the start of code, after the PE header, you can enter something like:
 <code>&lt;app.exe&gt;+0x1000</code>.</p>
 <p>It also supports dereferencing (denoted by <code>-&gt;</code>), like so: <code>&lt;app.exe&gt;+0x5000-&gt;0x24</code>. This will add <code>0x5000</code> to <code>app.exe</code>'s base address, dereference the result and then read out bytes starting from <code>0x24</code> after the resulting dereference.</p>
