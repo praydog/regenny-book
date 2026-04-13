@@ -1,44 +1,64 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>regenny</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-5877e838.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-e769e9f3.js"></script>
     </head>
     <body>
-        <!-- Provide site root to javascript -->
-        <script type="text/javascript">
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
-
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -51,57 +71,70 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
-            var theme;
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
-            html.classList.remove('no-js')
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            html.classList.add("js");
         </script>
 
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
-            var html = document.querySelector('html');
-            var sidebar = 'hidden';
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Usage</li><li class="chapter-item expanded "><a href="general/supported-types.html"><strong aria-hidden="true">1.</strong> Supported types</a></li><li class="chapter-item expanded "><a href="general/metadata.html"><strong aria-hidden="true">2.</strong> Type metadata</a></li><li class="chapter-item expanded "><a href="general/address.html"><strong aria-hidden="true">3.</strong> Addresses</a></li><li class="chapter-item expanded affix "><li class="part-title">Examples</li><li class="chapter-item expanded "><a href="examples/examplegenny.html"><strong aria-hidden="true">4.</strong> Example genny files</a></li><li class="chapter-item expanded "><a href="examples/examplescripts.html"><strong aria-hidden="true">5.</strong> Example scripts</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripting Reference</li><li class="chapter-item expanded "><a href="api/globals/index.html"><strong aria-hidden="true">6.</strong> Globals</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/regenny.html"><strong aria-hidden="true">6.1.</strong> regenny</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny.html"><strong aria-hidden="true">6.2.</strong> sdkgenny</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/sdkgenny/sdk.html"><strong aria-hidden="true">6.2.1.</strong> Sdk</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/structoverlay.html"><strong aria-hidden="true">6.2.2.</strong> StructOverlay</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/pointeroverlay.html"><strong aria-hidden="true">6.2.3.</strong> PointerOverlay</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types.html"><strong aria-hidden="true">6.2.4.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/object.html"><strong aria-hidden="true">6.2.4.1.</strong> Object</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/typename.html"><strong aria-hidden="true">6.2.4.2.</strong> Typename</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/namespace.html"><strong aria-hidden="true">6.2.4.3.</strong> Namespace</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/type.html"><strong aria-hidden="true">6.2.4.4.</strong> Type</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/struct.html"><strong aria-hidden="true">6.2.4.5.</strong> Struct</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/class.html"><strong aria-hidden="true">6.2.4.6.</strong> Class</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/pointer.html"><strong aria-hidden="true">6.2.4.7.</strong> Pointer</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/reference.html"><strong aria-hidden="true">6.2.4.8.</strong> Reference</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/enum.html"><strong aria-hidden="true">6.2.4.9.</strong> Enum</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/enumclass.html"><strong aria-hidden="true">6.2.4.10.</strong> EnumClass</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/constant.html"><strong aria-hidden="true">6.2.4.11.</strong> Constant</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/function.html"><strong aria-hidden="true">6.2.4.12.</strong> Function</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/virtualfunction.html"><strong aria-hidden="true">6.2.4.13.</strong> VirtualFunction</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/parameter.html"><strong aria-hidden="true">6.2.4.14.</strong> Parameter</a></li><li class="chapter-item expanded "><a href="api/globals/sdkgenny/types/variable.html"><strong aria-hidden="true">6.2.4.15.</strong> Variable</a></li></ol></li></ol></li></ol></li><li class="chapter-item expanded "><a href="api/types/index.html"><strong aria-hidden="true">7.</strong> Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="api/types/regenny.html"><strong aria-hidden="true">7.1.</strong> ReGenny</a></li><li class="chapter-item expanded "><a href="api/types/process.html"><strong aria-hidden="true">7.2.</strong> Process</a></li><li class="chapter-item expanded "><a href="api/types/windowsprocess.html"><strong aria-hidden="true">7.3.</strong> WindowsProcess</a></li><li class="chapter-item expanded "><a href="api/types/processmodule.html"><strong aria-hidden="true">7.4.</strong> ProcessModule</a></li><li class="chapter-item expanded "><a href="api/types/processallocation.html"><strong aria-hidden="true">7.5.</strong> ProcessAllocation</a></li></ol></li></ol>
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
-                        </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -109,34 +142,41 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/praydog/regenny-book" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
+
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <p>This is the <a href="https://github.com/cursey/regenny">regenny</a> wiki.</p>
 <h1 id="what-is-regenny"><a class="header" href="#what-is-regenny">What is regenny?</a></h1>
@@ -148,7 +188,7 @@
 <h1 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h1>
 <p>To get started using ReGenny, create a project by clicking <code>File-&gt;New</code> on the top menu bar and entering a name in the dialog box. This will create a <code>.json</code> project file and a <code>.genny</code> file.</p>
 <p>After that, you can click <code>Action-&gt;Attach</code> to attach to a running process and then you can edit the <code>.genny</code> file created earlier to start reverse engineering structures.</p>
-<p>Once you're finished, you can click <code>Action-&gt;Generate SDK</code> to generate corresponding C++ files.</p>
+<p>Once you’re finished, you can click <code>Action-&gt;Generate SDK</code> to generate corresponding C++ files.</p>
 <p>ReGenny is a <em>very</em> powerful tool has many other features, but this should give you a good idea on how to get started with reverse engineering using ReGenny.</p>
 <h1 id="what-is-a-genny-file"><a class="header" href="#what-is-a-genny-file">What is a <code>.genny</code> file?</a></h1>
 <p><code>.genny</code> files are defined in a C/C++-like syntax. They provide the definitions of the types to be viewed in the GUI, generated, and/or reflected upon by the scripting API.</p>
@@ -181,8 +221,8 @@ struct Bar {
     int c
 };
 </code></pre>
-<p><img src="https://user-images.githubusercontent.com/2909949/187513097-32107759-4f23-4ac8-8985-e2debf2a09ec.png" alt="rexample" /></p>
-<p>The above image is slightly out of date. There is no longer a text editor inside ReGenny itself. <code>.genny</code> files must be opened within ReGenny and edited with an external text editor now. Reason being ImGui's text editor functionality was not that great and caused frustrating issues.</p>
+<p><img src="https://user-images.githubusercontent.com/2909949/187513097-32107759-4f23-4ac8-8985-e2debf2a09ec.png" alt="rexample"></p>
+<p>The above image is slightly out of date. There is no longer a text editor inside ReGenny itself. <code>.genny</code> files must be opened within ReGenny and edited with an external text editor now. Reason being ImGui’s text editor functionality was not that great and caused frustrating issues.</p>
 <h3 id="the-corresponding-generated-c-structure"><a class="header" href="#the-corresponding-generated-c-structure">The corresponding generated C++ structure</a></h3>
 <p>Foo.hpp</p>
 <pre><code class="language-cpp">#pragma once
@@ -221,8 +261,8 @@ struct Bar {
 -- It has index and newindex metamethods that access to the members of the structure
 -- seamlessly, with no magic numbers/offsets, completely externally.
 local foo = regenny:overlay()
-if not foo or foo:type():name() ~= &quot;Foo&quot; then
-    print(&quot;Overlay is not a Foo, cannot use this script.&quot;)
+if not foo or foo:type():name() ~= "Foo" then
+    print("Overlay is not a Foo, cannot use this script.")
     return
 end
 
@@ -258,7 +298,8 @@ end
 <li>Parsing another <code>.genny</code> file separately</li>
 <li>Generating C++ header files from a new <code>.genny</code> file or SDK instance</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="supported-types"><a class="header" href="#supported-types">Supported types</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="supported-types"><a class="header" href="#supported-types">Supported types</a></h1>
 <ul>
 <li>Namespaces</li>
 <li>Enums</li>
@@ -274,7 +315,8 @@ end
 <li>Structs, enums and classes can be nested within other structs/classes</li>
 <li>Bring your own external types</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="type-metadata"><a class="header" href="#type-metadata">Type metadata</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="type-metadata"><a class="header" href="#type-metadata">Type metadata</a></h1>
 <p>Types and variables can have a metadata attached to them. This metadata is used to determine how the type is displayed in the GUI and read by the Lua API.</p>
 <p>For types, the format is <code>type {type_name} {size} [[{metadata}]]</code>.</p>
 <p>For variables, the format is <code>{type_name} {variable_name} [[{metadata}]]</code>.</p>
@@ -295,9 +337,10 @@ struct Foo {
     int* d
 };
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="address"><a class="header" href="#address">Address</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="address"><a class="header" href="#address">Address</a></h1>
 <p>ReGenny parses addresses in a few different ways. Here you can find some examples.</p>
-<p>For these examples, I'm going to be using numbers in the hexidecimal format (base 16), but decimal numbers (base 10) are also supported.</p>
+<p>For these examples, I’m going to be using numbers in the hexidecimal format (base 16), but decimal numbers (base 10) are also supported.</p>
 <h2 id="absolute-addresses"><a class="header" href="#absolute-addresses">Absolute addresses</a></h2>
 <p>Inputting an absolute address will display whatever is at that address in the current virtual address space.</p>
 <p>For example, on Windows if your process is based at <code>0x180000000</code>, then you can input the address <code>0x180000000</code> to see the PE (MZ) header and <code>0x180001000</code> to see the start of code (or whatever else is after the PE header, assuming the PE header is <code>0x1000</code> bytes in size).</p>
@@ -310,16 +353,18 @@ For example, say we want to get the base address of a module loaded as <code>C:\
 <li><code>&lt;System32\kernel32.dll&gt;</code> (Partial ending)</li>
 <li><code>&lt;C:\Windows\System32\kernel32.dll&gt;+0x0</code> (Full path)</li>
 </ul>
-<p>On Windows, Addresses are relative to a loaded DLL's (Dynamic-Link Library) name or EXE (Executable) name of the attached app (basically, any loaded module, including itself).</p>
+<p>On Windows, Addresses are relative to a loaded DLL’s (Dynamic-Link Library) name or EXE (Executable) name of the attached app (basically, any loaded module, including itself).</p>
 <p>For example, to get the start of code, after the PE header, you can enter something like:
 <code>&lt;app.exe&gt;+0x1000</code>.</p>
-<p>It also supports dereferencing (denoted by <code>-&gt;</code>), like so: <code>&lt;app.exe&gt;+0x5000-&gt;0x24</code>. This will add <code>0x5000</code> to <code>app.exe</code>'s base address, dereference the result and then read out bytes starting from <code>0x24</code> after the resulting dereference.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="example-genny-files"><a class="header" href="#example-genny-files">Example genny files</a></h1>
+<p>It also supports dereferencing (denoted by <code>-&gt;</code>), like so: <code>&lt;app.exe&gt;+0x5000-&gt;0x24</code>. This will add <code>0x5000</code> to <code>app.exe</code>’s base address, dereference the result and then read out bytes starting from <code>0x24</code> after the resulting dereference.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="example-genny-files"><a class="header" href="#example-genny-files">Example genny files</a></h1>
 <ul>
 <li><a href="https://github.com/praydog/REFramework/tree/master/reversing">REFramework</a></li>
 <li><a href="https://github.com/praydog/AutomataMP/tree/main/reversing">AutomataMP</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="example-scripts"><a class="header" href="#example-scripts">Example scripts</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="example-scripts"><a class="header" href="#example-scripts">Example scripts</a></h1>
 <ul>
 <li><a href="https://github.com/cursey/regenny/blob/master/examples/test.lua">https://github.com/cursey/regenny/blob/master/examples/test.lua</a></li>
 <li><a href="https://github.com/cursey/regenny/pull/10">https://github.com/cursey/regenny/pull/10</a></li>
@@ -328,8 +373,8 @@ For example, say we want to get the base address of a module loaded as <code>C:\
 -- It has index and newindex metamethods that access to the members of the structure
 -- seamlessly, with no magic numbers/offsets, completely externally.
 local foo = regenny:overlay()
-if not foo or foo:type():name() ~= &quot;Foo&quot; then
-    print(&quot;Overlay is not a Foo, cannot use this script.&quot;)
+if not foo or foo:type():name() ~= "Foo" then
+    print("Overlay is not a Foo, cannot use this script.")
     return
 end
 
@@ -357,23 +402,72 @@ if bar ~= nil then
     end
 end
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="globals"><a class="header" href="#globals">Globals</a></h2>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="globals-1"><a href="#globals-1" class="header">Globals</a></h1>
+<h2 id="globals"><a class="header" href="#globals">Globals</a></h2>
 <p>These can be accessed from anywhere in a script.</p>
 <ul>
 <li><code>regenny</code> - The global API for <a href="api/globals/types/regenny.html">ReGenny</a>.</li>
 <li><code>sdkgenny</code> - The global API for <a href="https://github.com/praydog/luagenny">luagenny</a>.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="regenny"><a class="header" href="#regenny">regenny</a></h1>
-<p>This is the global API for <a href="api/globals/../types/regenny.html">ReGenny</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sdkgenny"><a class="header" href="#sdkgenny">sdkgenny</a></h1>
-<p>This is the global API for <a href="https://github.com/praydog/luagenny">luagenny</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sdkgennysdk"><a class="header" href="#sdkgennysdk">sdkgenny.Sdk</a></h1>
-<p>The <code>Sdk</code> is the top level class required to generate the SDK and/or perform reflection.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sdkgennystructoverlay"><a class="header" href="#sdkgennystructoverlay">sdkgenny.StructOverlay</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="regenny"><a class="header" href="#regenny">regenny</a></h1>
+<p>This is the global API for <a href="#regenny-1">ReGenny</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgenny"><a class="header" href="#sdkgenny">sdkgenny</a></h1>
+<p>This is the global API for <a href="https://github.com/praydog/luagenny">luagenny</a>. It provides functions for parsing <code>.genny</code> type definitions and constructing overlay objects for reading/writing typed memory.</p>
+<h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
+<h3 id="sdkgennyparsedata-string"><a class="header" href="#sdkgennyparsedata-string"><code>sdkgenny.parse(data: string)</code></a></h3>
+<p>Parses an in-memory genny schema string and returns an <a href="#sdkgennysdk">Sdk</a> object.</p>
+<pre><code class="language-lua">local sdk = sdkgenny.parse([[
+struct Foo {
+    int a;
+    float b;
+};
+]])
+</code></pre>
+<h3 id="sdkgennyparse_filefilename-string"><a class="header" href="#sdkgennyparse_filefilename-string"><code>sdkgenny.parse_file(filename: string)</code></a></h3>
+<p>Reads a <code>.genny</code> schema file from disk and parses it, returning an <a href="#sdkgennysdk">Sdk</a> object.</p>
+<pre><code class="language-lua">local sdk = sdkgenny.parse_file("types.genny")
+</code></pre>
+<h2 id="types"><a class="header" href="#types">Types</a></h2>
+<ul>
+<li><a href="#sdkgennysdk">Sdk</a> - The root SDK object for code generation and reflection.</li>
+<li><a href="#sdkgennystructoverlay">StructOverlay</a> - Overlay for reading/writing struct memory by field name.</li>
+<li><a href="#sdkgennypointeroverlay">PointerOverlay</a> - Overlay for interacting with pointer-typed memory.</li>
+<li><a href="#types-1">Type hierarchy</a> - The full type model (Object, Type, Struct, Variable, etc.).</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennysdk"><a class="header" href="#sdkgennysdk">sdkgenny.Sdk</a></h1>
+<p>The <code>Sdk</code> is the top level object returned by <code>sdkgenny.parse()</code> or <code>sdkgenny.parse_file()</code>. It owns the global namespace and controls code generation settings.</p>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h3 id="selfglobal_ns"><a class="header" href="#selfglobal_ns"><code>self:global_ns()</code></a></h3>
+<p>Returns the root <a href="#sdkgennynamespace">Namespace</a>. All types are created within this namespace or nested namespaces below it.</p>
+<pre><code class="language-lua">local ns = sdk:global_ns()
+local my_struct = ns:struct("MyStruct")
+</code></pre>
+<h3 id="selfgenerateoutput_path-string"><a class="header" href="#selfgenerateoutput_path-string"><code>self:generate(output_path: string)</code></a></h3>
+<p>Generates SDK header and source files to the given directory path.</p>
+<h3 id="selfpreambletext-string"><a class="header" href="#selfpreambletext-string"><code>self:preamble(text: string)</code></a></h3>
+<p>Sets the preamble text inserted before all generated code. Returns <code>self</code> for chaining.</p>
+<h3 id="selfpostambletext-string"><a class="header" href="#selfpostambletext-string"><code>self:postamble(text: string)</code></a></h3>
+<p>Sets the postamble text inserted after all generated code. Returns <code>self</code> for chaining.</p>
+<h3 id="selfincludeheader-string"><a class="header" href="#selfincludeheader-string"><code>self:include(header: string)</code></a></h3>
+<p>Adds a global <code>#include &lt;header&gt;</code> directive to the generated output. Returns <code>self</code> for chaining.</p>
+<h3 id="selfinclude_localheader-string"><a class="header" href="#selfinclude_localheader-string"><code>self:include_local(header: string)</code></a></h3>
+<p>Adds a local <code>#include "header"</code> directive to the generated output. Returns <code>self</code> for chaining.</p>
+<h3 id="selfheader_extension--selfheader_extensionext-string"><a class="header" href="#selfheader_extension--selfheader_extensionext-string"><code>self:header_extension()</code> / <code>self:header_extension(ext: string)</code></a></h3>
+<p>Gets or sets the file extension for generated header files (default: <code>.hpp</code>). Returns <code>self</code> when setting.</p>
+<h3 id="selfsource_extension--selfsource_extensionext-string"><a class="header" href="#selfsource_extension--selfsource_extensionext-string"><code>self:source_extension()</code> / <code>self:source_extension(ext: string)</code></a></h3>
+<p>Gets or sets the file extension for generated source files (default: <code>.cpp</code>). Returns <code>self</code> when setting.</p>
+<h3 id="selfgenerate_namespaces--selfgenerate_namespacesflag-boolean"><a class="header" href="#selfgenerate_namespaces--selfgenerate_namespacesflag-boolean"><code>self:generate_namespaces()</code> / <code>self:generate_namespaces(flag: boolean)</code></a></h3>
+<p>Gets or sets whether to emit namespace wrappers in generated output. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennystructoverlay"><a class="header" href="#sdkgennystructoverlay">sdkgenny.StructOverlay</a></h1>
 <p>An StructOverlay is a special Lua type that allows access to the memory of a structure.
 It has index and newindex metamethods that access to the members of the structure
 seamlessly, with no magic numbers/offsets, completely externally*.</p>
-<p>* This is not true if using <a href="https://github.com/praydog/luagenny">luagenny</a> outside of regenny. By default it operates on memory as if it was in the same context as the current process. regenny overrides luagenny's read and write functions to read and write from the target process.</p>
+<p>* This is not true if using <a href="https://github.com/praydog/luagenny">luagenny</a> outside of regenny. By default it operates on memory as if it was in the same context as the current process. regenny overrides luagenny’s read and write functions to read and write from the target process.</p>
 <p>Example assuming Foo is:</p>
 <pre><code class="language-c">struct Foo {
     int a;
@@ -381,84 +475,354 @@ seamlessly, with no magic numbers/offsets, completely externally*.</p>
 };
 </code></pre>
 <pre><code class="language-lua">local sdk = regenny:sdk() -- in another application, this would be different.
-local overlay = sdkgenny.StructOverlay(0xdeadbeef, sdk:global_ns():find_type(&quot;Foo&quot;))
+local overlay = sdkgenny.StructOverlay(0xdeadbeef, sdk:global_ns():find_type("Foo"))
 overlay.a = 123
 overlay.b = 456
 </code></pre>
 <h2 id="static-methods"><a class="header" href="#static-methods">Static methods</a></h2>
 <p><code>sdkgenny.StructOverlay(address: number, struct: sdkgenny.Struct)</code></p>
 <p>Creates and returns a new StructOverlay.</p>
-<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
 <h3 id="selfindexkey-string-or-number"><a class="header" href="#selfindexkey-string-or-number"><code>self.index(key: string or number)</code></a></h3>
 <p>Or in other words, <code>self.foo</code> or <code>self[1]</code>.</p>
-<p>When <code>key</code> is a string, it returns the value of the member at the given key. <a href="api/globals/sdkgenny/types/struct.html">Structs</a> and <a href="api/globals/sdkgenny/types/pointer.html">Pointers</a> are automatically returned as <a href="api/globals/sdkgenny/structoverlay.html">StructOverlay</a> or <a href="api/globals/sdkgenny/pointeroverlay.html">PointerOverlay</a> respectively.</p>
+<p>When <code>key</code> is a string, it returns the value of the member at the given key. <a href="#sdkgennystruct">Structs</a> and <a href="#sdkgennypointer">Pointers</a> are automatically returned as <a href="#sdkgennystructoverlay">StructOverlay</a> or <a href="#sdkgennypointeroverlay">PointerOverlay</a> respectively.</p>
 <p>When <code>key</code> is a number, it treats the structure as an inlined array and returns a new <code>StructOverlay</code> at the given index. Essentially, it returns <code>self:address() + (key * self:type():size())</code>.</p>
 <h3 id="selfnewindexkey-string-value-any"><a class="header" href="#selfnewindexkey-string-value-any"><code>self.newindex(key: string, value: any)</code></a></h3>
 <p>Or in other words, <code>self.foo = 123</code></p>
 <p>When <code>key</code> is a string, it sets the value of the member at the given key.</p>
 <h3 id="selftype"><a class="header" href="#selftype"><code>self:type()</code></a></h3>
 <p>Returns the <code>sdkgenny.Struct</code> that this overlay is for.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sdkgennypointeroverlay"><a class="header" href="#sdkgennypointeroverlay">sdkgenny.PointerOverlay</a></h1>
+<h3 id="selfaddress"><a class="header" href="#selfaddress"><code>self:address()</code></a></h3>
+<p>Returns the base memory address of this overlay.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennypointeroverlay"><a class="header" href="#sdkgennypointeroverlay">sdkgenny.PointerOverlay</a></h1>
 <p>A PointerOverlay is a special Lua type for interacting with pointers. When the pointed to structure is an <code>sdkgenny.Struct</code>, it is not much different from an <code>sdkgenny.StructOverlay</code>, but when the pointed to type is a primitive type or a pointer, it has different behavior.</p>
-<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
+<h2 id="static-methods-1"><a class="header" href="#static-methods-1">Static methods</a></h2>
+<p><code>sdkgenny.PointerOverlay(address: number, pointer: sdkgenny.Pointer)</code></p>
+<p>Creates and returns a new PointerOverlay.</p>
+<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
 <h3 id="selfindexkey-string-or-number-1"><a class="header" href="#selfindexkey-string-or-number-1"><code>self.index(key: string or number)</code></a></h3>
 <p>Or in other words, <code>self.foo</code> or <code>self[1]</code>.</p>
 <h3 id="when-key-is-a-string"><a class="header" href="#when-key-is-a-string">When <code>key</code> is a string</a></h3>
 <p>It returns the value of the member at the given key. This will only work if the pointed to type is an <code>sdkgenny.Struct</code>.</p>
 <h4 id="when-key-is-a-number"><a class="header" href="#when-key-is-a-number">When <code>key</code> is a number</a></h4>
-<p>It treats the pointer as an array. </p>
+<p>It treats the pointer as an array.</p>
 <p>If the pointed to type is a primitive type, it returns the value at the given index.
 Essentially, it returns <code>self:ptr() + (key * self:type():to():size())</code>, and dereferences the pointer.</p>
 <p>If the pointed to type is a pointer, it returns a new <code>sdkgenny.PointerOverlay</code> at the given index. Essentially, it returns <code>self:ptr() + (key * platform_pointer_size)</code>, and dereferences the pointer.</p>
 <h3 id="selfnewindexkey-string-value-any-1"><a class="header" href="#selfnewindexkey-string-value-any-1"><code>self.newindex(key: string, value: any)</code></a></h3>
 <p>Or in other words, <code>self.foo = 123</code></p>
 <p>When <code>key</code> is a string, it sets the value of the member at the given key.</p>
-<h3 id="selfaddress"><a class="header" href="#selfaddress"><code>self:address()</code></a></h3>
+<h3 id="selfaddress-1"><a class="header" href="#selfaddress-1"><code>self:address()</code></a></h3>
 <p>Returns the address of the pointer itself.</p>
 <h3 id="selfptr"><a class="header" href="#selfptr"><code>self:ptr()</code></a></h3>
 <p>Returns the pointed to address.</p>
+<h3 id="selfd--selfderef--selfdereference"><a class="header" href="#selfd--selfderef--selfdereference"><code>self:d()</code> / <code>self:deref()</code> / <code>self:dereference()</code></a></h3>
+<p>Dereferences the pointer and returns the pointed-to value. Returns <code>nil</code> if the pointer is null. All three names are aliases for the same operation. Equivalent to <code>self[0]</code>.</p>
 <h3 id="selftype-1"><a class="header" href="#selftype-1"><code>self:type()</code></a></h3>
-<p>Returns the <a href="api/globals/sdkgenny/types/pointer.html">sdkgenny.Pointer</a> that this overlay is for.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="types"><a class="header" href="#types">Types</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sdkgennyobject"><a class="header" href="#sdkgennyobject">sdkgenny.Object</a></h1>
-<p>All types inherit from this.</p>
-<p>Most methods with an asterisk * take many different strings, e.g.</p>
-<pre><code class="language-lua">object:is_struct() -- returns true if the object is a struct
-object:is_variable() -- returns true if the object is a variable
-object:is_function() -- returns true if the object is a function
-</code></pre>
-<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
-<p><code>self:is_*()</code></p>
-<p>Returns true if the object is of the given type.</p>
-<p><code>self:as_*()</code></p>
-<p>Returns the object as the given type, or nil if it is not of the given type.</p>
-<p><code>self:find_*()</code></p>
-<p>Searches the children of the object for the given type. Returns <code>nil</code> if not found.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="typename"><a class="header" href="#typename">Typename</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="namespace"><a class="header" href="#namespace">Namespace</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="type"><a class="header" href="#type">Type</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sdkgennystruct"><a class="header" href="#sdkgennystruct">sdkgenny.Struct</a></h1>
+<p>Returns the <a href="#sdkgennypointer">sdkgenny.Pointer</a> that this overlay is for.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="types-1"><a class="header" href="#types-1">Types</a></h1>
+<p>These are the types that make up the sdkgenny type model. All types inherit from <a href="#sdkgennyobject">Object</a>.</p>
+<p>The inheritance hierarchy is:</p>
+<ul>
+<li><a href="#sdkgennyobject">Object</a>
+<ul>
+<li><a href="#sdkgennytypename">Typename</a>
+<ul>
+<li><a href="#sdkgennytype">Type</a>
+<ul>
+<li><a href="#sdkgennygenerictype">GenericType</a></li>
+<li><a href="#sdkgennystruct">Struct</a>
+<ul>
+<li><a href="#sdkgennyclass">Class</a></li>
+</ul>
+</li>
+<li><a href="#sdkgennyenum">Enum</a>
+<ul>
+<li><a href="#sdkgennyenumclass">EnumClass</a></li>
+</ul>
+</li>
+<li><a href="#sdkgennyreference">Reference</a>
+<ul>
+<li><a href="#sdkgennypointer">Pointer</a></li>
+</ul>
+</li>
+<li><a href="#sdkgennyarray">Array</a></li>
+</ul>
+</li>
+<li><a href="#sdkgennynamespace">Namespace</a></li>
+</ul>
+</li>
+<li><a href="#sdkgennyvariable">Variable</a></li>
+<li><a href="#sdkgennyfunction">Function</a>
+<ul>
+<li><a href="#sdkgennyvirtualfunction">VirtualFunction</a></li>
+<li><a href="#sdkgennystaticfunction">StaticFunction</a></li>
+</ul>
+</li>
+<li><a href="#sdkgennyparameter">Parameter</a></li>
+<li><a href="#sdkgennyconstant">Constant</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyobject"><a class="header" href="#sdkgennyobject">sdkgenny.Object</a></h1>
+<p>The base type that all sdkgenny types inherit from. Provides name access, metadata, and a polymorphic type dispatch system.</p>
 <h2 id="methods-3"><a class="header" href="#methods-3">Methods</a></h2>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="class"><a class="header" href="#class">Class</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="sdkgennypointer"><a class="header" href="#sdkgennypointer"><code>sdkgenny.Pointer</code></a></h2>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="enum"><a class="header" href="#enum">Enum</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="enumclass"><a class="header" href="#enumclass">EnumClass</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="constant"><a class="header" href="#constant">Constant</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="function"><a class="header" href="#function">Function</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="virtualfunction"><a class="header" href="#virtualfunction">VirtualFunction</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="parameter"><a class="header" href="#parameter">Parameter</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="variable"><a class="header" href="#variable">Variable</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="types-1"><a class="header" href="#types-1">Types</a></h2>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="regenny-1"><a class="header" href="#regenny-1">ReGenny</a></h1>
-<p>This is the class used to access the ReGenny API. It can be accessed through the global <code>regenny</code> variable.</p>
+<h3 id="selfname--selfnamenew_name-string"><a class="header" href="#selfname--selfnamenew_name-string"><code>self:name()</code> / <code>self:name(new_name: string)</code></a></h3>
+<p>Gets or sets the object’s name. Returns <code>self</code> when setting.</p>
+<h3 id="selfmetadata"><a class="header" href="#selfmetadata"><code>self:metadata()</code></a></h3>
+<p>Returns the metadata string array for this object (e.g. <code>{"i32"}</code>, <code>{"f32"}</code>, <code>{"utf8*"}</code>).</p>
+<h3 id="selfis_atypename-string"><a class="header" href="#selfis_atypename-string"><code>self:is_a(typename: string)</code></a></h3>
+<p>Returns <code>true</code> if this object is of the given type. Valid type names: <code>typename</code>, <code>type</code>, <code>generic_type</code>, <code>struct</code>, <code>class</code>, <code>enum</code>, <code>enum_class</code>, <code>namespace</code>, <code>reference</code>, <code>pointer</code>, <code>variable</code>, <code>function</code>, <code>virtual_function</code>, <code>static_function</code>, <code>array</code>, <code>parameter</code>, <code>constant</code>.</p>
+<h3 id="selfastypename-string"><a class="header" href="#selfastypename-string"><code>self:as(typename: string)</code></a></h3>
+<p>Casts this object to the given type. Returns the casted object, or <code>nil</code> if the cast is invalid. Takes the same type names as <code>is_a</code>.</p>
+<h3 id="selffindtypename-string-name-string"><a class="header" href="#selffindtypename-string-name-string"><code>self:find(typename: string, name: string)</code></a></h3>
+<p>Searches the direct children of this object for a child of the given type with the given name. Returns the child, or <code>nil</code> if not found.</p>
+<h3 id="selffind_in_ownerstypename-string-name-string-include_self-boolean"><a class="header" href="#selffind_in_ownerstypename-string-name-string-include_self-boolean"><code>self:find_in_owners(typename: string, name: string, include_self: boolean)</code></a></h3>
+<p>Searches upward through ancestor owners for an object of the given type with the given name. If <code>include_self</code> is <code>true</code>, the search includes this object.</p>
+<h3 id="selfhas_anytypename-string"><a class="header" href="#selfhas_anytypename-string"><code>self:has_any(typename: string)</code></a></h3>
+<p>Returns <code>true</code> if this object has any direct children of the given type.</p>
+<h3 id="selfhas_any_in_childrentypename-string"><a class="header" href="#selfhas_any_in_childrentypename-string"><code>self:has_any_in_children(typename: string)</code></a></h3>
+<p>Returns <code>true</code> if any descendant (recursively) is of the given type.</p>
+<h3 id="selfownertypename-string"><a class="header" href="#selfownertypename-string"><code>self:owner(typename: string)</code></a></h3>
+<p>Returns the immediate owner of the given type, or <code>nil</code>.</p>
+<h3 id="selftopmost_ownertypename-string"><a class="header" href="#selftopmost_ownertypename-string"><code>self:topmost_owner(typename: string)</code></a></h3>
+<p>Returns the topmost (outermost) owner of the given type, or <code>nil</code>.</p>
+<h3 id="selfget_alltypename-string"><a class="header" href="#selfget_alltypename-string"><code>self:get_all(typename: string)</code></a></h3>
+<p>Returns all direct children of the given type as a list.</p>
+<h2 id="type-shortcut-methods"><a class="header" href="#type-shortcut-methods">Type shortcut methods</a></h2>
+<p>For every type name listed above, convenience methods are generated that eliminate the string argument. For example, for the type name <code>struct</code>:</p>
+<ul>
+<li><code>self:is_struct()</code> - equivalent to <code>self:is_a("struct")</code></li>
+<li><code>self:as_struct()</code> - equivalent to <code>self:as("struct")</code></li>
+<li><code>self:find_struct(name)</code> - equivalent to <code>self:find("struct", name)</code></li>
+<li><code>self:find_struct_in_owners(name, include_self)</code> - equivalent to <code>self:find_in_owners("struct", name, include_self)</code></li>
+<li><code>self:has_any_struct()</code> - equivalent to <code>self:has_any("struct")</code></li>
+<li><code>self:has_any_struct_in_children()</code> - equivalent to <code>self:has_any_in_children("struct")</code></li>
+<li><code>self:owner_struct()</code> - equivalent to <code>self:owner("struct")</code></li>
+<li><code>self:topmost_owner_struct()</code> - equivalent to <code>self:topmost_owner("struct")</code></li>
+<li><code>self:get_all_struct()</code> - equivalent to <code>self:get_all("struct")</code></li>
+</ul>
+<p>The same pattern applies to all type names: <code>typename</code>, <code>type</code>, <code>generic_type</code>, <code>struct</code>, <code>class</code>, <code>enum</code>, <code>enum_class</code>, <code>namespace</code>, <code>reference</code>, <code>pointer</code>, <code>variable</code>, <code>function</code>, <code>virtual_function</code>, <code>static_function</code>, <code>array</code>, <code>parameter</code>, <code>constant</code>.</p>
+<pre><code class="language-lua">local obj = sdk:global_ns():find_type("Foo")
+if obj:is_struct() then
+    local s = obj:as_struct()
+    local vars = s:get_all_variable()
+end
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennytypename"><a class="header" href="#sdkgennytypename">sdkgenny.Typename</a></h1>
+<p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
+<p>A named entity with control over how its type name is generated.</p>
 <h2 id="methods-4"><a class="header" href="#methods-4">Methods</a></h2>
+<h3 id="selfsimple_typename_generation--selfsimple_typename_generationflag-boolean"><a class="header" href="#selfsimple_typename_generation--selfsimple_typename_generationflag-boolean"><code>self:simple_typename_generation()</code> / <code>self:simple_typename_generation(flag: boolean)</code></a></h3>
+<p>Gets or sets whether to use simple typename generation. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennynamespace"><a class="header" href="#sdkgennynamespace">sdkgenny.Namespace</a></h1>
+<p>Inherits from <a href="#sdkgennytypename">Typename</a>.</p>
+<p>A C++ namespace that can contain types, structs, enums, and nested namespaces.</p>
+<h2 id="methods-5"><a class="header" href="#methods-5">Methods</a></h2>
+<h3 id="selftypename-string"><a class="header" href="#selftypename-string"><code>self:type(name: string)</code></a></h3>
+<p>Finds or creates a named <a href="#sdkgennytype">Type</a> in this namespace.</p>
+<h3 id="selfgeneric_typename-string"><a class="header" href="#selfgeneric_typename-string"><code>self:generic_type(name: string)</code></a></h3>
+<p>Finds or creates a <a href="#sdkgennygenerictype">GenericType</a> in this namespace.</p>
+<h3 id="selfstructname-string"><a class="header" href="#selfstructname-string"><code>self:struct(name: string)</code></a></h3>
+<p>Finds or creates a <a href="#sdkgennystruct">Struct</a> in this namespace.</p>
+<h3 id="selfenumname-string"><a class="header" href="#selfenumname-string"><code>self:enum(name: string)</code></a></h3>
+<p>Finds or creates an <a href="#sdkgennyenum">Enum</a> in this namespace.</p>
+<h3 id="selfenum_classname-string"><a class="header" href="#selfenum_classname-string"><code>self:enum_class(name: string)</code></a></h3>
+<p>Finds or creates an <a href="#sdkgennyenumclass">EnumClass</a> in this namespace.</p>
+<h3 id="selfnamespacename-string"><a class="header" href="#selfnamespacename-string"><code>self:namespace(name: string)</code></a></h3>
+<p>Finds or creates a nested <a href="#sdkgennynamespace">Namespace</a> in this namespace.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennytype"><a class="header" href="#sdkgennytype">sdkgenny.Type</a></h1>
+<p>Inherits from <a href="#sdkgennytypename">Typename</a>.</p>
+<p>A named type with a byte size. Provides factory methods for creating derived reference, pointer, and array types.</p>
+<h2 id="methods-6"><a class="header" href="#methods-6">Methods</a></h2>
+<h3 id="selfsize--selfsizebytes-number"><a class="header" href="#selfsize--selfsizebytes-number"><code>self:size()</code> / <code>self:size(bytes: number)</code></a></h3>
+<p>Gets or sets the byte size of this type. Returns <code>self</code> when setting.</p>
+<h3 id="selfref"><a class="header" href="#selfref"><code>self:ref()</code></a></h3>
+<p>Creates or retrieves a <a href="#sdkgennyreference">Reference</a> type wrapping this type (i.e. <code>T&amp;</code>).</p>
+<h3 id="selfptr-1"><a class="header" href="#selfptr-1"><code>self:ptr()</code></a></h3>
+<p>Creates or retrieves a <a href="#sdkgennypointer">Pointer</a> type pointing to this type (i.e. <code>T*</code>).</p>
+<h3 id="selfarray"><a class="header" href="#selfarray"><code>self:array()</code></a></h3>
+<p>Creates or retrieves an <a href="#sdkgennyarray">Array</a> type for this element type.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennystruct"><a class="header" href="#sdkgennystruct">sdkgenny.Struct</a></h1>
+<p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
+<p>A C struct type. This is the central type for declaring fields, nested types, and member functions.</p>
+<h2 id="methods-7"><a class="header" href="#methods-7">Methods</a></h2>
+<h3 id="selfsize--selfsizebytes-number-1"><a class="header" href="#selfsize--selfsizebytes-number-1"><code>self:size()</code> / <code>self:size(bytes: number)</code></a></h3>
+<p>Gets or sets the explicit byte size of this struct. A size of <code>0</code> means the size is auto-calculated from the fields. Returns <code>self</code> when setting.</p>
+<h3 id="selfparentparent_struct-sdkgennystruct"><a class="header" href="#selfparentparent_struct-sdkgennystruct"><code>self:parent(parent_struct: sdkgenny.Struct)</code></a></h3>
+<p>Adds a base/parent struct for inheritance. Returns <code>self</code> for chaining.</p>
+<h3 id="selfparents"><a class="header" href="#selfparents"><code>self:parents()</code></a></h3>
+<p>Returns the list of direct parent structs.</p>
+<h3 id="selfvariablename-string"><a class="header" href="#selfvariablename-string"><code>self:variable(name: string)</code></a></h3>
+<p>Finds or creates a member <a href="#sdkgennyvariable">Variable</a>.</p>
+<h3 id="selfconstantname-string"><a class="header" href="#selfconstantname-string"><code>self:constant(name: string)</code></a></h3>
+<p>Finds or creates a named <a href="#sdkgennyconstant">Constant</a>.</p>
+<h3 id="selfstructname-string-1"><a class="header" href="#selfstructname-string-1"><code>self:struct(name: string)</code></a></h3>
+<p>Finds or creates a nested <a href="#sdkgennystruct">Struct</a>.</p>
+<h3 id="selfclassname-string"><a class="header" href="#selfclassname-string"><code>self:class(name: string)</code></a></h3>
+<p>Finds or creates a nested <a href="#sdkgennyclass">Class</a>.</p>
+<h3 id="selfenumname-string-1"><a class="header" href="#selfenumname-string-1"><code>self:enum(name: string)</code></a></h3>
+<p>Finds or creates a nested <a href="#sdkgennyenum">Enum</a>.</p>
+<h3 id="selfenum_classname-string-1"><a class="header" href="#selfenum_classname-string-1"><code>self:enum_class(name: string)</code></a></h3>
+<p>Finds or creates a nested <a href="#sdkgennyenumclass">EnumClass</a>.</p>
+<h3 id="selffunctionname-string"><a class="header" href="#selffunctionname-string"><code>self:function(name: string)</code></a></h3>
+<p>Finds or creates a member <a href="#sdkgennyfunction">Function</a>.</p>
+<h3 id="selfvirtual_functionname-string"><a class="header" href="#selfvirtual_functionname-string"><code>self:virtual_function(name: string)</code></a></h3>
+<p>Finds or creates a <a href="#sdkgennyvirtualfunction">VirtualFunction</a>.</p>
+<h3 id="selfstatic_functionname-string"><a class="header" href="#selfstatic_functionname-string"><code>self:static_function(name: string)</code></a></h3>
+<p>Finds or creates a <a href="#sdkgennystaticfunction">StaticFunction</a>.</p>
+<h3 id="selfbitfieldbyte_offset-number"><a class="header" href="#selfbitfieldbyte_offset-number"><code>self:bitfield(byte_offset: number)</code></a></h3>
+<p>Returns a table mapping bit offsets to <a href="#sdkgennyvariable">Variable</a> objects for all bitfield members at the given byte offset.</p>
+<h3 id="selffind_in_parentstypename-string-name-string"><a class="header" href="#selffind_in_parentstypename-string-name-string"><code>self:find_in_parents(typename: string, name: string)</code></a></h3>
+<p>Searches parent structs recursively for a child of the given type with the given name. Returns <code>nil</code> if not found.</p>
+<p>Like <a href="#sdkgennyobject">Object</a>, type-specific shortcut methods are also available. For example:</p>
+<ul>
+<li><code>self:find_variable_in_parents(name)</code> - equivalent to <code>self:find_in_parents("variable", name)</code></li>
+<li><code>self:find_struct_in_parents(name)</code> - equivalent to <code>self:find_in_parents("struct", name)</code></li>
+</ul>
+<p>The same pattern applies for all type names.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyclass"><a class="header" href="#sdkgennyclass">sdkgenny.Class</a></h1>
+<p>Inherits from <a href="#sdkgennystruct">Struct</a>.</p>
+<p>A C++ class type. Identical to <a href="#sdkgennystruct">Struct</a> in the Lua API – all Struct methods are available.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennypointer"><a class="header" href="#sdkgennypointer">sdkgenny.Pointer</a></h1>
+<p>Inherits from <a href="#sdkgennyreference">Reference</a>.</p>
+<p>A pointer type (<code>T*</code>). Inherits the <code>to()</code> method from <a href="#sdkgennyreference">Reference</a> and has no additional methods of its own.</p>
+<p>Pointer types are typically created via the <code>Type:ptr()</code> factory method rather than directly.</p>
+<pre><code class="language-lua">local int_type = ns:type("int"):size(4)
+local int_ptr = int_type:ptr() -- creates int*
+print(int_ptr:to():name())     -- prints "int"
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyreference"><a class="header" href="#sdkgennyreference">sdkgenny.Reference</a></h1>
+<p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
+<p>A reference type (<code>T&amp;</code>). Wraps a target type.</p>
+<h2 id="methods-8"><a class="header" href="#methods-8">Methods</a></h2>
+<h3 id="selfto--selftotype-sdkgennytype"><a class="header" href="#selfto--selftotype-sdkgennytype"><code>self:to()</code> / <code>self:to(type: sdkgenny.Type)</code></a></h3>
+<p>Gets or sets the type this reference refers to. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyenum"><a class="header" href="#sdkgennyenum">sdkgenny.Enum</a></h1>
+<p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
+<p>An enumeration type with named integer values.</p>
+<h2 id="methods-9"><a class="header" href="#methods-9">Methods</a></h2>
+<h3 id="selfvaluename-string-val-number"><a class="header" href="#selfvaluename-string-val-number"><code>self:value(name: string, val: number)</code></a></h3>
+<p>Adds an enumerator with the given name and integer value.</p>
+<h3 id="selfvalues"><a class="header" href="#selfvalues"><code>self:values()</code></a></h3>
+<p>Returns all enumerators as a list of <code>{name, value}</code> pairs.</p>
+<pre><code class="language-lua">local e = ns:enum("Color")
+e:value("Red", 0)
+e:value("Green", 1)
+e:value("Blue", 2)
+
+for _, pair in ipairs(e:values()) do
+    print(pair[1], pair[2]) -- name, value
+end
+</code></pre>
+<h3 id="selftype--selftypeunderlying_type-sdkgennytype"><a class="header" href="#selftype--selftypeunderlying_type-sdkgennytype"><code>self:type()</code> / <code>self:type(underlying_type: sdkgenny.Type)</code></a></h3>
+<p>Gets or sets the underlying integer type of this enum. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyenumclass"><a class="header" href="#sdkgennyenumclass">sdkgenny.EnumClass</a></h1>
+<p>Inherits from <a href="#sdkgennyenum">Enum</a>.</p>
+<p>A C++ scoped enum (<code>enum class</code>). Identical to <a href="#sdkgennyenum">Enum</a> in the Lua API – all Enum methods are available.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyconstant"><a class="header" href="#sdkgennyconstant">sdkgenny.Constant</a></h1>
+<p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
+<p>A named constant with a type and string value.</p>
+<h2 id="methods-10"><a class="header" href="#methods-10">Methods</a></h2>
+<h3 id="selftypetype-sdkgennytype"><a class="header" href="#selftypetype-sdkgennytype"><code>self:type(type: sdkgenny.Type)</code></a></h3>
+<p>Sets the type of this constant. Returns <code>self</code> for chaining.</p>
+<h3 id="selfvalue--selfvaluev-string"><a class="header" href="#selfvalue--selfvaluev-string"><code>self:value()</code> / <code>self:value(v: string)</code></a></h3>
+<p>Gets or sets the constant’s value as a string. Returns <code>self</code> when setting.</p>
+<h3 id="selfstring"><a class="header" href="#selfstring"><code>self:string()</code></a></h3>
+<p>Marks this constant as a string-type constant. Returns <code>self</code> for chaining.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyfunction"><a class="header" href="#sdkgennyfunction">sdkgenny.Function</a></h1>
+<p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
+<p>A member function declaration with return type, parameters, and an optional body.</p>
+<h2 id="methods-11"><a class="header" href="#methods-11">Methods</a></h2>
+<h3 id="selfreturns--selfreturnstype-sdkgennytype"><a class="header" href="#selfreturns--selfreturnstype-sdkgennytype"><code>self:returns()</code> / <code>self:returns(type: sdkgenny.Type)</code></a></h3>
+<p>Gets or sets the return type. Returns <code>self</code> when setting.</p>
+<h3 id="selfprocedure--selfprocedurebody-string"><a class="header" href="#selfprocedure--selfprocedurebody-string"><code>self:procedure()</code> / <code>self:procedure(body: string)</code></a></h3>
+<p>Gets or sets the function body as a code string. Returns <code>self</code> when setting.</p>
+<h3 id="selfdependencies"><a class="header" href="#selfdependencies"><code>self:dependencies()</code></a></h3>
+<p>Returns the list of types this function explicitly depends on.</p>
+<h3 id="selfdepends_ontype-sdkgennytype"><a class="header" href="#selfdepends_ontype-sdkgennytype"><code>self:depends_on(type: sdkgenny.Type)</code></a></h3>
+<p>Declares that this function depends on the given type. Returns <code>self</code> for chaining.</p>
+<h3 id="selfdefined--selfdefinedflag-boolean"><a class="header" href="#selfdefined--selfdefinedflag-boolean"><code>self:defined()</code> / <code>self:defined(flag: boolean)</code></a></h3>
+<p>Gets or sets whether this function has an implementation body. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyvirtualfunction"><a class="header" href="#sdkgennyvirtualfunction">sdkgenny.VirtualFunction</a></h1>
+<p>Inherits from <a href="#sdkgennyfunction">Function</a>.</p>
+<p>A virtual member function. Adds vtable index tracking on top of the base <a href="#sdkgennyfunction">Function</a> methods.</p>
+<h2 id="methods-12"><a class="header" href="#methods-12">Methods</a></h2>
+<h3 id="selfvtable_index--selfvtable_indexindex-number"><a class="header" href="#selfvtable_index--selfvtable_indexindex-number"><code>self:vtable_index()</code> / <code>self:vtable_index(index: number)</code></a></h3>
+<p>Gets or sets the vtable slot index for this virtual function. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyparameter"><a class="header" href="#sdkgennyparameter">sdkgenny.Parameter</a></h1>
+<p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
+<p>A function parameter with a name and type.</p>
+<h2 id="methods-13"><a class="header" href="#methods-13">Methods</a></h2>
+<h3 id="selftype--selftypetype-sdkgennytype"><a class="header" href="#selftype--selftypetype-sdkgennytype"><code>self:type()</code> / <code>self:type(type: sdkgenny.Type)</code></a></h3>
+<p>Gets or sets this parameter’s type. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyvariable"><a class="header" href="#sdkgennyvariable">sdkgenny.Variable</a></h1>
+<p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
+<p>A struct/class member variable with type, offset, and optional bitfield information.</p>
+<h2 id="methods-14"><a class="header" href="#methods-14">Methods</a></h2>
+<h3 id="selftype--selftypetype-sdkgennytype--selftypetypename-string"><a class="header" href="#selftype--selftypetype-sdkgennytype--selftypetypename-string"><code>self:type()</code> / <code>self:type(type: sdkgenny.Type)</code> / <code>self:type(typename: string)</code></a></h3>
+<p>Gets or sets the variable’s type. Accepts either a <a href="#sdkgennytype">Type</a> object or a type name string. Returns <code>self</code> when setting.</p>
+<h3 id="selfoffset--selfoffsetbytes-number"><a class="header" href="#selfoffset--selfoffsetbytes-number"><code>self:offset()</code> / <code>self:offset(bytes: number)</code></a></h3>
+<p>Gets or sets the byte offset of this variable within its parent struct. Returns <code>self</code> when setting.</p>
+<h3 id="selfappend"><a class="header" href="#selfappend"><code>self:append()</code></a></h3>
+<p>Sets this variable’s offset to the end of the last variable in the parent struct, effectively auto-packing it after the previous field. Returns <code>self</code> for chaining.</p>
+<h3 id="selfend"><a class="header" href="#selfend"><code>self:end()</code></a></h3>
+<p>Returns the byte offset immediately past the end of this variable (<code>offset + type size</code>).</p>
+<h3 id="selfbit_size--selfbit_sizebits-number"><a class="header" href="#selfbit_size--selfbit_sizebits-number"><code>self:bit_size()</code> / <code>self:bit_size(bits: number)</code></a></h3>
+<p>Gets or sets the bit-size for bitfield variables. Returns <code>self</code> when setting.</p>
+<h3 id="selfbit_offset--selfbit_offsetbits-number"><a class="header" href="#selfbit_offset--selfbit_offsetbits-number"><code>self:bit_offset()</code> / <code>self:bit_offset(bits: number)</code></a></h3>
+<p>Gets or sets the bit-offset within the storage unit for bitfield variables. Returns <code>self</code> when setting.</p>
+<h3 id="selfis_bitfield"><a class="header" href="#selfis_bitfield"><code>self:is_bitfield()</code></a></h3>
+<p>Returns <code>true</code> if this variable is a bitfield.</p>
+<h3 id="selfbit_append"><a class="header" href="#selfbit_append"><code>self:bit_append()</code></a></h3>
+<p>Appends this variable as the next bitfield after the previous bitfield in the same storage unit. Returns <code>self</code> for chaining.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennygenerictype"><a class="header" href="#sdkgennygenerictype">sdkgenny.GenericType</a></h1>
+<p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
+<p>A generic/opaque type with no additional methods beyond those inherited from <a href="#sdkgennytype">Type</a>. Used to represent types that don’t fit into the struct/enum/reference categories.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyarray"><a class="header" href="#sdkgennyarray">sdkgenny.Array</a></h1>
+<p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
+<p>A fixed-size array type (<code>T[N]</code>).</p>
+<h2 id="methods-15"><a class="header" href="#methods-15">Methods</a></h2>
+<h3 id="selfof--selfofelement_type-sdkgennytype"><a class="header" href="#selfof--selfofelement_type-sdkgennytype"><code>self:of()</code> / <code>self:of(element_type: sdkgenny.Type)</code></a></h3>
+<p>Gets or sets the element type. Returns <code>self</code> when setting.</p>
+<h3 id="selfcount--selfcountn-number"><a class="header" href="#selfcount--selfcountn-number"><code>self:count()</code> / <code>self:count(n: number)</code></a></h3>
+<p>Gets or sets the number of elements. Returns <code>self</code> when setting.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennystaticfunction"><a class="header" href="#sdkgennystaticfunction">sdkgenny.StaticFunction</a></h1>
+<p>Inherits from <a href="#sdkgennyfunction">Function</a>.</p>
+<p>A static member function. Identical to <a href="#sdkgennyfunction">Function</a> in the Lua API – all Function methods are available.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="types-2"><a class="header" href="#types-2">Types</a></h1>
+<p>These are the ReGenny-specific types available in the scripting API.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="regenny-1"><a class="header" href="#regenny-1">ReGenny</a></h1>
+<p>This is the class used to access the ReGenny API. It can be accessed through the global <code>regenny</code> variable.</p>
+<h2 id="methods-16"><a class="header" href="#methods-16">Methods</a></h2>
 <h3 id="selfprocess"><a class="header" href="#selfprocess"><code>self:process()</code></a></h3>
-<p>Returns the current <a href="api/types/process.html">Process</a>. Gets upcasted to a <a href="api/types/windowsprocess.html">WindowsProcess</a> if the process is a Windows process.</p>
-<h3 id="selfaddress-1"><a class="header" href="#selfaddress-1"><code>self:address()</code></a></h3>
+<p>Returns the current <a href="#process">Process</a>. Gets upcasted to a <a href="#windowsprocess">WindowsProcess</a> if the process is a Windows process.</p>
+<h3 id="selfaddress-2"><a class="header" href="#selfaddress-2"><code>self:address()</code></a></h3>
 <p>Returns the current address set in the GUI.</p>
 <h3 id="selftype-2"><a class="header" href="#selftype-2"><code>self:type()</code></a></h3>
-<p>Returns the current <code>sdkgenny.Type</code> set in the GUI. </p>
+<p>Returns the current <code>sdkgenny.Type</code> set in the GUI.</p>
 <p>Can usually be casted to an <code>sdkgenny.Struct</code> with <code>self:type():as_struct()</code>.</p>
 <h3 id="selfsdk"><a class="header" href="#selfsdk"><code>self:sdk()</code></a></h3>
 <p>Returns the current <code>sdkgenny.Sdk</code> for the current project (generated from the editor).</p>
@@ -468,25 +832,26 @@ object:is_function() -- returns true if the object is a function
 <p>Example:</p>
 <pre><code class="language-lua">local baz = regenny:overlay()
 if baz == nil then
-    print(&quot;Cannot continue test, overlay does not exist.&quot;)
+    print("Cannot continue test, overlay does not exist.")
     return false
 end
 
-if baz:type():name() ~= &quot;Baz&quot; then
-    print(&quot;Cannot continue test, selected type is not Baz&quot;)
+if baz:type():name() ~= "Baz" then
+    print("Cannot continue test, selected type is not Baz")
     return false
 end
 
 print(baz)
 print(baz:type())
-print(string.format(&quot;%x&quot;, baz:address()))
+print(string.format("%x", baz:address()))
 
-print(baz.hello) -- Prints &quot;Hello, world!&quot;, which is the value pointed to by baz.hello
+print(baz.hello) -- Prints "Hello, world!", which is the value pointed to by baz.hello
 baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="process"><a class="header" href="#process">Process</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="process"><a class="header" href="#process">Process</a></h1>
 <p>Class referring to the currently attached process in regenny.</p>
-<h2 id="methods-5"><a class="header" href="#methods-5">Methods</a></h2>
+<h2 id="methods-17"><a class="header" href="#methods-17">Methods</a></h2>
 <h3 id="selfprotectaddress-number-size-number-flags-number"><a class="header" href="#selfprotectaddress-number-size-number-flags-number"><code>self:protect(address: number, size: number, flags: number)</code></a></h3>
 <p>Modifies the protection of a region of memory in the process.</p>
 <p>On Windows, the <code>flags</code> are the same as the <code>flNewProtect</code> flags in <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotectex">VirtualProtectEx</a>.</p>
@@ -496,13 +861,13 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 <p><code>address</code> is optional, set it to 0 to let the OS choose the address.</p>
 <p>On Windows, the <code>flags</code> are the same as the <code>flProtect</code> flags in <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex">VirtualAllocEx</a>.</p>
 <h3 id="selfget_module_withinaddress-number"><a class="header" href="#selfget_module_withinaddress-number"><code>self:get_module_within(address: number)</code></a></h3>
-<p>Returns the <a href="api/types/processmodule.html">ProcessModule</a> that contains the given address.</p>
+<p>Returns the <a href="#processmodule">ProcessModule</a> that contains the given address.</p>
 <h3 id="selfget_modulename-string"><a class="header" href="#selfget_modulename-string"><code>self:get_module(name: string)</code></a></h3>
-<p>Returns the <a href="api/types/processmodule.html">ProcessModule</a> with the given name.</p>
+<p>Returns the <a href="#processmodule">ProcessModule</a> with the given name.</p>
 <h3 id="selfmodules"><a class="header" href="#selfmodules"><code>self:modules()</code></a></h3>
-<p>Returns a list of <a href="api/types/processmodule.html">ProcessModule</a>s in the process.</p>
+<p>Returns a list of <a href="#processmodule">ProcessModule</a>s in the process.</p>
 <h3 id="selfallocations"><a class="header" href="#selfallocations"><code>self:allocations()</code></a></h3>
-<p>Returns a list of <a href="api/types/processallocation.html">ProcessAllocation</a>s in the process.</p>
+<p>Returns a list of <a href="#processallocation">ProcessAllocation</a>s in the process.</p>
 <h3 id="selfread_int8address-number"><a class="header" href="#selfread_int8address-number"><code>self:read_int8(address: number)</code></a></h3>
 <p>Reads a <code>int8_t</code> from the process memory at the given address.</p>
 <h3 id="selfread_int16address-number"><a class="header" href="#selfread_int16address-number"><code>self:read_int16(address: number)</code></a></h3>
@@ -546,31 +911,34 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 <p>Writes a <code>float</code> to the process memory at the given address.</p>
 <h3 id="selfwrite_doubleaddress-number-value-number"><a class="header" href="#selfwrite_doubleaddress-number-value-number"><code>self:write_double(address: number, value: number)</code></a></h3>
 <p>Writes a <code>double</code> to the process memory at the given address.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="windowsprocess"><a class="header" href="#windowsprocess">WindowsProcess</a></h1>
-<p>Windows version of the <a href="api/types/process.html">Process</a> class. Inherits from <a href="api/types/process.html">Process</a>.</p>
-<h2 id="methods-6"><a class="header" href="#methods-6">Methods</a></h2>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="windowsprocess"><a class="header" href="#windowsprocess">WindowsProcess</a></h1>
+<p>Windows version of the <a href="#process">Process</a> class. Inherits from <a href="#process">Process</a>.</p>
+<h2 id="methods-18"><a class="header" href="#methods-18">Methods</a></h2>
 <h3 id="selfget_typenameobj-number"><a class="header" href="#selfget_typenameobj-number"><code>self:get_typename(obj: number)</code></a></h3>
 <p>Returns the RTTI name of the given object at the given address.</p>
 <h3 id="selfallocate_rwxaddress-number-size-number"><a class="header" href="#selfallocate_rwxaddress-number-size-number"><code>self:allocate_rwx(address: number, size: number)</code></a></h3>
-<p>Wrapper over <a href="api/types/process.html#selfallocateaddress-number-size-number-flags-number">Process.allocate</a> that allocates a region of memory with the <code>PAGE_EXECUTE_READWRITE</code> protection.</p>
+<p>Wrapper over <a href="#selfallocateaddress-number-size-number-flags-number">Process.allocate</a> that allocates a region of memory with the <code>PAGE_EXECUTE_READWRITE</code> protection.</p>
 <h3 id="selfprotect_rwxaddress-number-size-number"><a class="header" href="#selfprotect_rwxaddress-number-size-number"><code>self:protect_rwx(address: number, size: number)</code></a></h3>
-<p>Wrapper over <a href="api/types/process.html#selfprotectaddress-number-size-number-flags-number">Process.protect</a> that changes the protection of a region of memory to <code>PAGE_EXECUTE_READWRITE</code>.</p>
+<p>Wrapper over <a href="#selfprotectaddress-number-size-number-flags-number">Process.protect</a> that changes the protection of a region of memory to <code>PAGE_EXECUTE_READWRITE</code>.</p>
 <h3 id="selfcreate_remote_threadaddress-number-param-number"><a class="header" href="#selfcreate_remote_threadaddress-number-param-number"><code>self:create_remote_thread(address: number, param: number)</code></a></h3>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="processmodule"><a class="header" href="#processmodule">ProcessModule</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="processmodule"><a class="header" href="#processmodule">ProcessModule</a></h1>
 <h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
 <h3 id="selfname"><a class="header" href="#selfname"><code>self.name</code></a></h3>
 <p>The name of the module.</p>
 <h3 id="selfstart"><a class="header" href="#selfstart"><code>self.start</code></a></h3>
 <p>The base address of the module.</p>
-<h3 id="selfend"><a class="header" href="#selfend"><code>self.end</code></a></h3>
+<h3 id="selfend-1"><a class="header" href="#selfend-1"><code>self.end</code></a></h3>
 <p>The end address of the module.</p>
 <h3 id="selfsize"><a class="header" href="#selfsize"><code>self.size</code></a></h3>
 <p>The size of the module.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="processallocation"><a class="header" href="#processallocation">ProcessAllocation</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="processallocation"><a class="header" href="#processallocation">ProcessAllocation</a></h1>
 <h2 id="fields-1"><a class="header" href="#fields-1">Fields</a></h2>
 <h3 id="selfstart-1"><a class="header" href="#selfstart-1"><code>self.start</code></a></h3>
 <p>The base address of the allocation.</p>
-<h3 id="selfend-1"><a class="header" href="#selfend-1"><code>self.end</code></a></h3>
+<h3 id="selfend-2"><a class="header" href="#selfend-2"><code>self.end</code></a></h3>
 <p>The end address of the allocation.</p>
 <h3 id="selfsize-1"><a class="header" href="#selfsize-1"><code>self.size</code></a></h3>
 <p>The size of the allocation.</p>
@@ -585,31 +953,49 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
             </nav>
 
         </div>
 
-        <script type="text/javascript">
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript">
+
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
+
+
+    </div>
     </body>
 </html>
