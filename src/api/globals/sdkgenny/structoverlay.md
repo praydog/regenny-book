@@ -46,3 +46,7 @@ When `key` is a string, it sets the value of the member at the given key.
 ### `self:type()`
 
 Returns the `sdkgenny.Struct` that this overlay is for.
+
+### `self:address()`
+
+Returns the base memory address of this overlay.

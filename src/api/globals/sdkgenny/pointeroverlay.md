@@ -2,6 +2,12 @@
 
 A PointerOverlay is a special Lua type for interacting with pointers. When the pointed to structure is an `sdkgenny.Struct`, it is not much different from an `sdkgenny.StructOverlay`, but when the pointed to type is a primitive type or a pointer, it has different behavior.
 
+## Static methods
+
+`sdkgenny.PointerOverlay(address: number, pointer: sdkgenny.Pointer)`
+
+Creates and returns a new PointerOverlay.
+
 ## Methods
 
 ### `self.index(key: string or number)`
@@ -32,6 +38,10 @@ Returns the address of the pointer itself.
 ### `self:ptr()`
 
 Returns the pointed to address.
+
+### `self:d()` / `self:deref()` / `self:dereference()`
+
+Dereferences the pointer and returns the pointed-to value. Returns `nil` if the pointer is null. All three names are aliases for the same operation. Equivalent to `self[0]`.
 
 ### `self:type()`
 
