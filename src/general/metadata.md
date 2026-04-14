@@ -25,3 +25,22 @@ struct Foo {
     int* d
 };
 ```
+
+## Valid metadata tokens
+
+The following metadata tokens are recognized by the overlay system for reading and writing values:
+
+| Token | Description |
+|-------|-------------|
+| `bool` | Boolean (1 byte, nonzero = true) |
+| `u8` | Unsigned 8-bit integer |
+| `u16` | Unsigned 16-bit integer |
+| `u32` | Unsigned 32-bit integer |
+| `u64` | Unsigned 64-bit integer |
+| `i8` | Signed 8-bit integer |
+| `i16` | Signed 16-bit integer |
+| `i32` | Signed 32-bit integer |
+| `i64` | Signed 64-bit integer |
+| `f32` | 32-bit floating point |
+| `f64` | 64-bit floating point |
+| `utf8*` | Null-terminated UTF-8 string (pointer or inline) |
