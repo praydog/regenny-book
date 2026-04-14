@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-5877e838.js";
+            window.path_to_searchindex_js = "../searchindex-709e84c8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-e769e9f3.js"></script>
@@ -201,6 +201,29 @@ struct Foo {
     int* d
 };
 </code></pre>
+<h2 id="valid-metadata-tokens"><a class="header" href="#valid-metadata-tokens">Valid metadata tokens</a></h2>
+<p>The following metadata tokens are recognized by the overlay system for reading and writing values:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Token</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>bool</code></td><td>Boolean (1 byte, nonzero = true)</td></tr>
+<tr><td><code>u8</code></td><td>Unsigned 8-bit integer</td></tr>
+<tr><td><code>u16</code></td><td>Unsigned 16-bit integer</td></tr>
+<tr><td><code>u32</code></td><td>Unsigned 32-bit integer</td></tr>
+<tr><td><code>u64</code></td><td>Unsigned 64-bit integer</td></tr>
+<tr><td><code>i8</code></td><td>Signed 8-bit integer</td></tr>
+<tr><td><code>i16</code></td><td>Signed 16-bit integer</td></tr>
+<tr><td><code>i32</code></td><td>Signed 32-bit integer</td></tr>
+<tr><td><code>i64</code></td><td>Signed 64-bit integer</td></tr>
+<tr><td><code>f32</code></td><td>32-bit floating point</td></tr>
+<tr><td><code>f64</code></td><td>64-bit floating point</td></tr>
+<tr><td><code>utf8*</code></td><td>Null-terminated UTF-8 string (pointer or inline)</td></tr>
+</tbody>
+</table>
+</div>
 
                     </main>
 

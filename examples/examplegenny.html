@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-5877e838.js";
+            window.path_to_searchindex_js = "../searchindex-709e84c8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-e769e9f3.js"></script>
@@ -185,6 +185,147 @@
 <li><a href="https://github.com/praydog/REFramework/tree/master/reversing">REFramework</a></li>
 <li><a href="https://github.com/praydog/AutomataMP/tree/main/reversing">AutomataMP</a></li>
 </ul>
+<h2 id="schema-patterns"><a class="header" href="#schema-patterns">Schema patterns</a></h2>
+<h3 id="basic-type-definitions"><a class="header" href="#basic-type-definitions">Basic type definitions</a></h3>
+<p>Define primitive types with their sizes and <a href="../general/metadata.html">metadata</a> for the overlay system:</p>
+<pre><code class="language-c">type uint32_t 4 [[u32]]
+type int32_t 4 [[i32]]
+type float 4 [[f32]]
+type uint8_t 1 [[u8]]
+type bool 1 [[u8]]
+type char 1
+type void 0
+</code></pre>
+<h3 id="explicit-struct-sizes"><a class="header" href="#explicit-struct-sizes">Explicit struct sizes</a></h3>
+<p>When only a few fields of a struct are known, specify the total struct size after the name. This ensures pointer arithmetic and array strides are correct even with an incomplete field list:</p>
+<pre><code class="language-c">// Full size is 0x1000, but we only know a few fields
+struct PlayerController 0x1000 {
+    int32_t health @ 0x1A4
+    float stamina @ 0x1A8
+}
+
+// Empty struct with known size -- used as a placeholder
+struct UnknownManager 0x200 {
+}
+</code></pre>
+<h3 id="field-offset-pinning-with-"><a class="header" href="#field-offset-pinning-with-">Field offset pinning with @</a></h3>
+<p>Use <code>@ offset</code> to place a field at a specific byte offset, skipping unknown regions between known fields:</p>
+<pre><code class="language-c">struct Camera {
+    Matrix3x4 view_matrix      // starts at offset 0
+    Matrix3x4 projection
+    float near_z @ 0x68        // pin to offset 0x68, gap before is skipped
+    float far_z                // auto-placed right after near_z
+    float fov_left
+    float fov_right
+    uint8_t flags @ 0x88       // jump to offset 0x88
+    uint32_t mode @ 0x8C
+}
+</code></pre>
+<h3 id="relative-padding-with-"><a class="header" href="#relative-padding-with-">Relative padding with +</a></h3>
+<p>Use <code>+ N</code> to add N bytes of padding before a field, relative to the previous field’s end:</p>
+<pre><code class="language-c">struct PhysicsWorld 0x1000 {
+    Vector3 gravity @ 0x170
+    float target_delta_time
+    float delta_time + 4       // 4 bytes of padding after target_delta_time
+}
+</code></pre>
+<h3 id="forward-declarations"><a class="header" href="#forward-declarations">Forward declarations</a></h3>
+<p>Declare a struct with an empty body, then define it fully later. This is common in iterative reverse engineering when types reference each other:</p>
+<pre><code class="language-c">// Forward declarations
+struct World {}
+struct EntityManager {}
+
+// Full definitions later
+struct World 0x8000 {
+    EntityManager* entity_manager @ 0x100
+}
+
+struct EntityManager 0x500 {
+    Entity** entities
+    uint32_t capacity
+    uint32_t count
+}
+</code></pre>
+<h3 id="namespaces-and-cross-namespace-references"><a class="header" href="#namespaces-and-cross-namespace-references">Namespaces and cross-namespace references</a></h3>
+<p>Organize types into namespaces. Reference types across namespaces with dot notation:</p>
+<pre><code class="language-c">namespace engine {
+    struct BaseEntity 0x100 {
+        int32_t id
+        char* name [[utf8*]]
+    }
+}
+
+namespace game {
+    // Inherit from a type in another namespace
+    struct Player : engine.BaseEntity 0x200 {
+        float health @ 0x1A0
+        float armor
+    }
+}
+</code></pre>
+<h3 id="multiple-inheritance"><a class="header" href="#multiple-inheritance">Multiple inheritance</a></h3>
+<p>Structs can inherit from multiple base types, including across namespaces:</p>
+<pre><code class="language-c">struct SharedItem : BaseItem, RefCountObject {
+}
+
+struct GenericEntity : ManagedInstance, BaseItem, ComponentContainer 0x100 {
+    Matrix3x4 transform
+}
+</code></pre>
+<h3 id="virtual-function-vtable-slots"><a class="header" href="#virtual-function-vtable-slots">Virtual function vtable slots</a></h3>
+<p>Document known virtual function slots with their vtable index:</p>
+<pre><code class="language-c">struct BaseItem 0x8 {
+    virtual void pad() @ 0
+    virtual uint32_t GetHash() @ 1
+    virtual char* GetModuleName() @ 2
+    virtual uint32_t GetSize() @ 3
+    virtual void Destructor() @ 6
+}
+</code></pre>
+<h3 id="string-pointer-metadata"><a class="header" href="#string-pointer-metadata">String pointer metadata</a></h3>
+<p>Use <code>[[utf8*]]</code> on <code>char*</code> fields to tell the overlay system to read them as null-terminated strings:</p>
+<pre><code class="language-c">struct ClassInfo {
+    char* class_name @ 0x10 [[utf8*]]
+    char* module_name [[utf8*]]
+    uint32_t field_count
+}
+</code></pre>
+<p>For inline character arrays, the same metadata works:</p>
+<pre><code class="language-c">struct FixedString {
+    char[64] buffer [[utf8*]]
+}
+</code></pre>
+<h3 id="dynamic-array-pattern"><a class="header" href="#dynamic-array-pattern">Dynamic array pattern</a></h3>
+<p>A common C++ dynamic array layout uses a pointer-to-pointer with capacity and size:</p>
+<pre><code class="language-c">struct EntityList {
+    Entity** data
+    uint32_t capacity
+    uint32_t size
+}
+
+struct World 0x8000 {
+    EntityList entities @ 0x100
+}
+</code></pre>
+<p>In Lua, access elements with <code>world.entities.data[i]:deref()</code>.</p>
+<h3 id="nested-struct-composition"><a class="header" href="#nested-struct-composition">Nested struct composition</a></h3>
+<p>Embed structs by value inside other structs:</p>
+<pre><code class="language-c">struct BoneInfo {
+    Matrix3x4 transform
+    int32_t parent_index
+}
+
+struct BonesHolder {
+    BoneInfo* bone_infos
+    void* unk1
+    void* unk2
+    uint32_t bone_count
+}
+
+struct MeshObject 0x1000 {
+    BonesHolder bones @ 0xE0   // embedded by value at offset 0xE0
+}
+</code></pre>
 
                     </main>
 

@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-5877e838.js";
+            window.path_to_searchindex_js = "../searchindex-709e84c8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-e769e9f3.js"></script>
@@ -181,21 +181,120 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="supported-types"><a class="header" href="#supported-types">Supported types</a></h1>
-<ul>
-<li>Namespaces</li>
-<li>Enums</li>
-<li>Structs</li>
-<li>Classes</li>
-<li>Function prototypes</li>
-<li>Static function prototypes</li>
-<li>Bitfields</li>
-<li>Arrays</li>
-<li>Multi-dimensional arrays</li>
-<li>Pointers</li>
-<li>Namespaces can be nested within each other</li>
-<li>Structs, enums and classes can be nested within other structs/classes</li>
-<li>Bring your own external types</li>
-</ul>
+<h2 id="primitive-types"><a class="header" href="#primitive-types">Primitive types</a></h2>
+<p>Define primitive types with <code>type name size [[metadata]]</code>:</p>
+<pre><code class="language-c">type int 4 [[i32]]
+type float 4 [[f32]]
+type char 1
+type bool 1 [[u8]]
+type void 0
+</code></pre>
+<p>See <a href="metadata.html">Type metadata</a> for available metadata values.</p>
+<h2 id="structs"><a class="header" href="#structs">Structs</a></h2>
+<pre><code class="language-c">struct Foo {
+    int a
+    float b
+}
+
+// With explicit size
+struct Bar 0x100 {
+    int x @ 0x40
+}
+</code></pre>
+<h2 id="classes"><a class="header" href="#classes">Classes</a></h2>
+<pre><code class="language-c">class MyClass : Foo {
+    int extra_field
+}
+</code></pre>
+<h2 id="enums"><a class="header" href="#enums">Enums</a></h2>
+<pre><code class="language-c">enum Direction {
+    North = 0,
+    South = 1,
+    East = 2,
+    West = 3,
+}
+</code></pre>
+<h2 id="namespaces"><a class="header" href="#namespaces">Namespaces</a></h2>
+<p>Namespaces can be nested. Types in other namespaces are referenced with dot notation.</p>
+<pre><code class="language-c">namespace engine {
+    struct Entity {
+        int id
+    }
+
+    namespace physics {
+        struct RigidBody {
+            engine.Entity* owner
+        }
+    }
+}
+</code></pre>
+<h2 id="pointers"><a class="header" href="#pointers">Pointers</a></h2>
+<pre><code class="language-c">struct Foo {
+    int* data
+    Foo* next
+    char* name [[utf8*]]
+}
+</code></pre>
+<h2 id="arrays"><a class="header" href="#arrays">Arrays</a></h2>
+<p>Fixed-size arrays, including multi-dimensional:</p>
+<pre><code class="language-c">struct Foo {
+    int[10] values
+    float[4][4] matrix
+    char[64] name [[utf8*]]
+}
+</code></pre>
+<h2 id="bitfields"><a class="header" href="#bitfields">Bitfields</a></h2>
+<pre><code class="language-c">struct Date {
+    ushort nWeekDay : 3
+    ushort nMonthDay : 6
+    ushort nMonth : 5
+    ushort nYear : 8
+}
+</code></pre>
+<h2 id="function-prototypes"><a class="header" href="#function-prototypes">Function prototypes</a></h2>
+<pre><code class="language-c">struct Foo {
+    virtual void Update() @ 0
+    virtual int GetHealth() @ 1
+    virtual void SetHealth(int value) @ 5
+}
+</code></pre>
+<h2 id="static-function-prototypes"><a class="header" href="#static-function-prototypes">Static function prototypes</a></h2>
+<pre><code class="language-c">struct Foo {
+    static void Initialize()
+    static Foo* GetInstance()
+}
+</code></pre>
+<h2 id="inheritance"><a class="header" href="#inheritance">Inheritance</a></h2>
+<p>Single and multiple inheritance, including across namespaces:</p>
+<pre><code class="language-c">struct Base {
+    int id
+}
+
+struct Derived : Base {
+    float value
+}
+
+// Multiple inheritance
+struct MultiDerived : Base, OtherBase {
+    int extra
+}
+
+// Cross-namespace inheritance
+struct GameEntity : engine.BaseEntity 0x200 {
+    float health
+}
+</code></pre>
+<h2 id="nesting"><a class="header" href="#nesting">Nesting</a></h2>
+<p>Structs, enums and classes can be nested within other structs and classes:</p>
+<pre><code class="language-c">struct Outer {
+    struct Inner {
+        int x
+    }
+
+    Inner value
+    Inner* ptr
+}
+</code></pre>
 
                     </main>
 

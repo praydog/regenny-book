@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-5877e838.js";
+            window.path_to_searchindex_js = "searchindex-709e84c8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-e769e9f3.js"></script>
@@ -300,21 +300,120 @@ end
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="supported-types"><a class="header" href="#supported-types">Supported types</a></h1>
-<ul>
-<li>Namespaces</li>
-<li>Enums</li>
-<li>Structs</li>
-<li>Classes</li>
-<li>Function prototypes</li>
-<li>Static function prototypes</li>
-<li>Bitfields</li>
-<li>Arrays</li>
-<li>Multi-dimensional arrays</li>
-<li>Pointers</li>
-<li>Namespaces can be nested within each other</li>
-<li>Structs, enums and classes can be nested within other structs/classes</li>
-<li>Bring your own external types</li>
-</ul>
+<h2 id="primitive-types"><a class="header" href="#primitive-types">Primitive types</a></h2>
+<p>Define primitive types with <code>type name size [[metadata]]</code>:</p>
+<pre><code class="language-c">type int 4 [[i32]]
+type float 4 [[f32]]
+type char 1
+type bool 1 [[u8]]
+type void 0
+</code></pre>
+<p>See <a href="#type-metadata">Type metadata</a> for available metadata values.</p>
+<h2 id="structs"><a class="header" href="#structs">Structs</a></h2>
+<pre><code class="language-c">struct Foo {
+    int a
+    float b
+}
+
+// With explicit size
+struct Bar 0x100 {
+    int x @ 0x40
+}
+</code></pre>
+<h2 id="classes"><a class="header" href="#classes">Classes</a></h2>
+<pre><code class="language-c">class MyClass : Foo {
+    int extra_field
+}
+</code></pre>
+<h2 id="enums"><a class="header" href="#enums">Enums</a></h2>
+<pre><code class="language-c">enum Direction {
+    North = 0,
+    South = 1,
+    East = 2,
+    West = 3,
+}
+</code></pre>
+<h2 id="namespaces"><a class="header" href="#namespaces">Namespaces</a></h2>
+<p>Namespaces can be nested. Types in other namespaces are referenced with dot notation.</p>
+<pre><code class="language-c">namespace engine {
+    struct Entity {
+        int id
+    }
+
+    namespace physics {
+        struct RigidBody {
+            engine.Entity* owner
+        }
+    }
+}
+</code></pre>
+<h2 id="pointers"><a class="header" href="#pointers">Pointers</a></h2>
+<pre><code class="language-c">struct Foo {
+    int* data
+    Foo* next
+    char* name [[utf8*]]
+}
+</code></pre>
+<h2 id="arrays"><a class="header" href="#arrays">Arrays</a></h2>
+<p>Fixed-size arrays, including multi-dimensional:</p>
+<pre><code class="language-c">struct Foo {
+    int[10] values
+    float[4][4] matrix
+    char[64] name [[utf8*]]
+}
+</code></pre>
+<h2 id="bitfields"><a class="header" href="#bitfields">Bitfields</a></h2>
+<pre><code class="language-c">struct Date {
+    ushort nWeekDay : 3
+    ushort nMonthDay : 6
+    ushort nMonth : 5
+    ushort nYear : 8
+}
+</code></pre>
+<h2 id="function-prototypes"><a class="header" href="#function-prototypes">Function prototypes</a></h2>
+<pre><code class="language-c">struct Foo {
+    virtual void Update() @ 0
+    virtual int GetHealth() @ 1
+    virtual void SetHealth(int value) @ 5
+}
+</code></pre>
+<h2 id="static-function-prototypes"><a class="header" href="#static-function-prototypes">Static function prototypes</a></h2>
+<pre><code class="language-c">struct Foo {
+    static void Initialize()
+    static Foo* GetInstance()
+}
+</code></pre>
+<h2 id="inheritance"><a class="header" href="#inheritance">Inheritance</a></h2>
+<p>Single and multiple inheritance, including across namespaces:</p>
+<pre><code class="language-c">struct Base {
+    int id
+}
+
+struct Derived : Base {
+    float value
+}
+
+// Multiple inheritance
+struct MultiDerived : Base, OtherBase {
+    int extra
+}
+
+// Cross-namespace inheritance
+struct GameEntity : engine.BaseEntity 0x200 {
+    float health
+}
+</code></pre>
+<h2 id="nesting"><a class="header" href="#nesting">Nesting</a></h2>
+<p>Structs, enums and classes can be nested within other structs and classes:</p>
+<pre><code class="language-c">struct Outer {
+    struct Inner {
+        int x
+    }
+
+    Inner value
+    Inner* ptr
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="type-metadata"><a class="header" href="#type-metadata">Type metadata</a></h1>
 <p>Types and variables can have a metadata attached to them. This metadata is used to determine how the type is displayed in the GUI and read by the Lua API.</p>
@@ -337,6 +436,29 @@ struct Foo {
     int* d
 };
 </code></pre>
+<h2 id="valid-metadata-tokens"><a class="header" href="#valid-metadata-tokens">Valid metadata tokens</a></h2>
+<p>The following metadata tokens are recognized by the overlay system for reading and writing values:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Token</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>bool</code></td><td>Boolean (1 byte, nonzero = true)</td></tr>
+<tr><td><code>u8</code></td><td>Unsigned 8-bit integer</td></tr>
+<tr><td><code>u16</code></td><td>Unsigned 16-bit integer</td></tr>
+<tr><td><code>u32</code></td><td>Unsigned 32-bit integer</td></tr>
+<tr><td><code>u64</code></td><td>Unsigned 64-bit integer</td></tr>
+<tr><td><code>i8</code></td><td>Signed 8-bit integer</td></tr>
+<tr><td><code>i16</code></td><td>Signed 16-bit integer</td></tr>
+<tr><td><code>i32</code></td><td>Signed 32-bit integer</td></tr>
+<tr><td><code>i64</code></td><td>Signed 64-bit integer</td></tr>
+<tr><td><code>f32</code></td><td>32-bit floating point</td></tr>
+<tr><td><code>f64</code></td><td>64-bit floating point</td></tr>
+<tr><td><code>utf8*</code></td><td>Null-terminated UTF-8 string (pointer or inline)</td></tr>
+</tbody>
+</table>
+</div>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="address"><a class="header" href="#address">Address</a></h1>
 <p>ReGenny parses addresses in a few different ways. Here you can find some examples.</p>
@@ -363,12 +485,154 @@ For example, say we want to get the base address of a module loaded as <code>C:\
 <li><a href="https://github.com/praydog/REFramework/tree/master/reversing">REFramework</a></li>
 <li><a href="https://github.com/praydog/AutomataMP/tree/main/reversing">AutomataMP</a></li>
 </ul>
+<h2 id="schema-patterns"><a class="header" href="#schema-patterns">Schema patterns</a></h2>
+<h3 id="basic-type-definitions"><a class="header" href="#basic-type-definitions">Basic type definitions</a></h3>
+<p>Define primitive types with their sizes and <a href="#type-metadata">metadata</a> for the overlay system:</p>
+<pre><code class="language-c">type uint32_t 4 [[u32]]
+type int32_t 4 [[i32]]
+type float 4 [[f32]]
+type uint8_t 1 [[u8]]
+type bool 1 [[u8]]
+type char 1
+type void 0
+</code></pre>
+<h3 id="explicit-struct-sizes"><a class="header" href="#explicit-struct-sizes">Explicit struct sizes</a></h3>
+<p>When only a few fields of a struct are known, specify the total struct size after the name. This ensures pointer arithmetic and array strides are correct even with an incomplete field list:</p>
+<pre><code class="language-c">// Full size is 0x1000, but we only know a few fields
+struct PlayerController 0x1000 {
+    int32_t health @ 0x1A4
+    float stamina @ 0x1A8
+}
+
+// Empty struct with known size -- used as a placeholder
+struct UnknownManager 0x200 {
+}
+</code></pre>
+<h3 id="field-offset-pinning-with-"><a class="header" href="#field-offset-pinning-with-">Field offset pinning with @</a></h3>
+<p>Use <code>@ offset</code> to place a field at a specific byte offset, skipping unknown regions between known fields:</p>
+<pre><code class="language-c">struct Camera {
+    Matrix3x4 view_matrix      // starts at offset 0
+    Matrix3x4 projection
+    float near_z @ 0x68        // pin to offset 0x68, gap before is skipped
+    float far_z                // auto-placed right after near_z
+    float fov_left
+    float fov_right
+    uint8_t flags @ 0x88       // jump to offset 0x88
+    uint32_t mode @ 0x8C
+}
+</code></pre>
+<h3 id="relative-padding-with-"><a class="header" href="#relative-padding-with-">Relative padding with +</a></h3>
+<p>Use <code>+ N</code> to add N bytes of padding before a field, relative to the previous field’s end:</p>
+<pre><code class="language-c">struct PhysicsWorld 0x1000 {
+    Vector3 gravity @ 0x170
+    float target_delta_time
+    float delta_time + 4       // 4 bytes of padding after target_delta_time
+}
+</code></pre>
+<h3 id="forward-declarations"><a class="header" href="#forward-declarations">Forward declarations</a></h3>
+<p>Declare a struct with an empty body, then define it fully later. This is common in iterative reverse engineering when types reference each other:</p>
+<pre><code class="language-c">// Forward declarations
+struct World {}
+struct EntityManager {}
+
+// Full definitions later
+struct World 0x8000 {
+    EntityManager* entity_manager @ 0x100
+}
+
+struct EntityManager 0x500 {
+    Entity** entities
+    uint32_t capacity
+    uint32_t count
+}
+</code></pre>
+<h3 id="namespaces-and-cross-namespace-references"><a class="header" href="#namespaces-and-cross-namespace-references">Namespaces and cross-namespace references</a></h3>
+<p>Organize types into namespaces. Reference types across namespaces with dot notation:</p>
+<pre><code class="language-c">namespace engine {
+    struct BaseEntity 0x100 {
+        int32_t id
+        char* name [[utf8*]]
+    }
+}
+
+namespace game {
+    // Inherit from a type in another namespace
+    struct Player : engine.BaseEntity 0x200 {
+        float health @ 0x1A0
+        float armor
+    }
+}
+</code></pre>
+<h3 id="multiple-inheritance"><a class="header" href="#multiple-inheritance">Multiple inheritance</a></h3>
+<p>Structs can inherit from multiple base types, including across namespaces:</p>
+<pre><code class="language-c">struct SharedItem : BaseItem, RefCountObject {
+}
+
+struct GenericEntity : ManagedInstance, BaseItem, ComponentContainer 0x100 {
+    Matrix3x4 transform
+}
+</code></pre>
+<h3 id="virtual-function-vtable-slots"><a class="header" href="#virtual-function-vtable-slots">Virtual function vtable slots</a></h3>
+<p>Document known virtual function slots with their vtable index:</p>
+<pre><code class="language-c">struct BaseItem 0x8 {
+    virtual void pad() @ 0
+    virtual uint32_t GetHash() @ 1
+    virtual char* GetModuleName() @ 2
+    virtual uint32_t GetSize() @ 3
+    virtual void Destructor() @ 6
+}
+</code></pre>
+<h3 id="string-pointer-metadata"><a class="header" href="#string-pointer-metadata">String pointer metadata</a></h3>
+<p>Use <code>[[utf8*]]</code> on <code>char*</code> fields to tell the overlay system to read them as null-terminated strings:</p>
+<pre><code class="language-c">struct ClassInfo {
+    char* class_name @ 0x10 [[utf8*]]
+    char* module_name [[utf8*]]
+    uint32_t field_count
+}
+</code></pre>
+<p>For inline character arrays, the same metadata works:</p>
+<pre><code class="language-c">struct FixedString {
+    char[64] buffer [[utf8*]]
+}
+</code></pre>
+<h3 id="dynamic-array-pattern"><a class="header" href="#dynamic-array-pattern">Dynamic array pattern</a></h3>
+<p>A common C++ dynamic array layout uses a pointer-to-pointer with capacity and size:</p>
+<pre><code class="language-c">struct EntityList {
+    Entity** data
+    uint32_t capacity
+    uint32_t size
+}
+
+struct World 0x8000 {
+    EntityList entities @ 0x100
+}
+</code></pre>
+<p>In Lua, access elements with <code>world.entities.data[i]:deref()</code>.</p>
+<h3 id="nested-struct-composition"><a class="header" href="#nested-struct-composition">Nested struct composition</a></h3>
+<p>Embed structs by value inside other structs:</p>
+<pre><code class="language-c">struct BoneInfo {
+    Matrix3x4 transform
+    int32_t parent_index
+}
+
+struct BonesHolder {
+    BoneInfo* bone_infos
+    void* unk1
+    void* unk2
+    uint32_t bone_count
+}
+
+struct MeshObject 0x1000 {
+    BonesHolder bones @ 0xE0   // embedded by value at offset 0xE0
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="example-scripts"><a class="header" href="#example-scripts">Example scripts</a></h1>
 <ul>
 <li><a href="https://github.com/cursey/regenny/blob/master/examples/test.lua">https://github.com/cursey/regenny/blob/master/examples/test.lua</a></li>
 <li><a href="https://github.com/cursey/regenny/pull/10">https://github.com/cursey/regenny/pull/10</a></li>
 </ul>
+<h2 id="basic-overlay-usage"><a class="header" href="#basic-overlay-usage">Basic overlay usage</a></h2>
 <pre><code class="language-lua">-- An overlay is a special Lua type that allows access to the memory of a structure.
 -- It has index and newindex metamethods that access to the members of the structure
 -- seamlessly, with no magic numbers/offsets, completely externally.
@@ -400,6 +664,148 @@ if bar ~= nil then
         -- pointers can be explicitly written to with a raw integer value
         bar.parent = foo:address()
     end
+end
+</code></pre>
+<h2 id="standalone-usage-with-sdkgennyparse_file"><a class="header" href="#standalone-usage-with-sdkgennyparse_file">Standalone usage with sdkgenny.parse_file()</a></h2>
+<p>Outside of the ReGenny GUI, you can parse a <code>.genny</code> schema file directly and build overlays manually.</p>
+<pre><code class="language-lua">-- Parse the schema
+local sdk = sdkgenny.parse_file("types.genny")
+local ns = sdk:global_ns()
+
+-- Resolve a type through namespaces
+local my_struct = ns:namespace("engine"):struct("Player")
+
+-- Build an overlay at a known address
+local player = sdkgenny.StructOverlay(0xDEADBEEF, my_struct)
+print(player.health)
+print(player.position.x, player.position.y, player.position.z)
+</code></pre>
+<h2 id="resolving-c-type-names-to-genny-types"><a class="header" href="#resolving-c-type-names-to-genny-types">Resolving C++ type names to genny types</a></h2>
+<p>When working with RTTI strings like <code>"class engine::Player"</code>, you can parse them into namespace and type lookups:</p>
+<pre><code class="language-lua">function resolve_type(typename)
+    local ns = sdk:global_ns()
+    -- Split on "::" and strip "class " prefix
+    local pieces = {}
+    for piece in typename:gmatch("([^:]+)") do
+        piece = piece:gsub("^class ", "")
+        table.insert(pieces, piece)
+    end
+
+    local result = nil
+    for i = 1, #pieces do
+        if i &lt; #pieces then
+            -- Intermediate pieces are namespaces
+            if i == 1 then
+                result = ns:find_namespace(pieces[i])
+            elseif result then
+                result = result:find_namespace(pieces[i])
+            end
+        else
+            -- Last piece is the struct name
+            if i == 1 then
+                result = ns:find_struct(pieces[i])
+            elseif result then
+                result = result:find_struct(pieces[i])
+            end
+        end
+    end
+
+    return result
+end
+
+local t = resolve_type("class engine::Player")
+if t then
+    print("Found: " .. t:name()) -- prints "Player"
+end
+</code></pre>
+<h2 id="navigating-overlay-chains"><a class="header" href="#navigating-overlay-chains">Navigating overlay chains</a></h2>
+<p>Nested struct fields and pointer fields are automatically wrapped in <code>StructOverlay</code> or <code>PointerOverlay</code>. You can chain through them with nil-guards for safety:</p>
+<pre><code class="language-lua">local entity = sdkgenny.StructOverlay(entity_addr, entity_type)
+
+-- Chain through nested structs and pointers
+-- Each field access returns an overlay if the field is a struct or pointer
+local weapon_manager = entity.weapon_manager
+local weapon_storage = weapon_manager and weapon_manager.weapon_storage
+local weapon_slots = weapon_storage and weapon_storage.weapon_slots
+local weapon = weapon_slots and weapon_slots.active_weapon
+
+if weapon then
+    print("Weapon: " .. weapon.name)
+end
+</code></pre>
+<h2 id="pointer-arrays-and-iteration"><a class="header" href="#pointer-arrays-and-iteration">Pointer arrays and iteration</a></h2>
+<p>A common pattern for dynamic arrays in C++ uses <code>T** data; uint32_t size;</code>. Access the pointer-to-pointer field, then index and dereference:</p>
+<pre><code class="language-lua">local entity_list = world.entity_list
+
+-- entity_list.data is a T** (pointer to pointer)
+-- entity_list.data[i] indexes into the pointer array
+-- :deref() follows the pointer to get the actual object
+for i = 0, entity_list.size - 1 do
+    local entity = entity_list.data[i]:deref()
+    if entity then
+        print(entity.name)
+    end
+end
+</code></pre>
+<h2 id="writing-values-through-overlays"><a class="header" href="#writing-values-through-overlays">Writing values through overlays</a></h2>
+<p>Overlay field writes go directly to the target process memory:</p>
+<pre><code class="language-lua">local entity = regenny:overlay()
+
+-- Write primitive fields
+entity.health = 100
+entity.armor = 50
+
+-- Write through nested struct overlays
+local transform = entity.transform
+if transform then
+    transform.w.x = new_x
+    transform.w.y = new_y
+    transform.w.z = new_z
+end
+
+-- Write pointer values (set a pointer to a new address)
+entity.target = some_address
+entity.target = nil  -- null the pointer (sets to 0)
+</code></pre>
+<h2 id="pointer-overlay-methods"><a class="header" href="#pointer-overlay-methods">Pointer overlay methods</a></h2>
+<p>PointerOverlay provides several ways to interact with pointer-typed fields:</p>
+<pre><code class="language-lua">local ptr = entity.some_pointer
+
+-- Get the address of the pointer itself (where the pointer is stored)
+local ptr_storage_addr = ptr:address()
+
+-- Get the address the pointer points to
+local pointed_to_addr = ptr:ptr()
+-- ptr:p() is an alias for ptr:ptr()
+
+-- Dereference the pointer to get the pointed-to value
+local value = ptr:deref()
+-- ptr:d() and ptr:dereference() are aliases for ptr:deref()
+
+-- Array-style access through pointer arithmetic
+local third_element = ptr[2]  -- *(ptr + 2)
+</code></pre>
+<h2 id="using-process-readwrite-with-overlay-addresses"><a class="header" href="#using-process-readwrite-with-overlay-addresses">Using process read/write with overlay addresses</a></h2>
+<p>For operations the overlay system doesn’t handle directly, combine overlay addresses with process read/write methods:</p>
+<pre><code class="language-lua">local process = regenny:process()
+
+-- Read raw memory at an overlay field's address
+local some_overlay = regenny:overlay()
+local raw_value = process:read_uint64(some_overlay.some_field:address())
+
+-- Pointer arithmetic from overlay addresses
+local base = some_overlay:address()
+local custom_offset_value = process:read_float(base + 0x30)
+
+-- Write typed values at specific addresses
+process:write_float(some_overlay.health:address(), 100.0)
+process:write_uint32(some_overlay.flags:address(), 0xFF)
+</code></pre>
+<h2 id="module-enumeration"><a class="header" href="#module-enumeration">Module enumeration</a></h2>
+<pre><code class="language-lua">local process = regenny:process()
+for _, mod in ipairs(process:modules()) do
+    print(string.format("%s: 0x%X - 0x%X (size: 0x%X)",
+        mod.name, mod.start, mod["end"], mod.size))
 end
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
