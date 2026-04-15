@@ -35,10 +35,10 @@
             const path_to_root = "../../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../../searchindex-709e84c8.js";
+            window.path_to_searchindex_js = "../../../../searchindex-c397a8c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../../../toc-e769e9f3.js"></script>
+        <script src="../../../../toc-9372c356.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -218,6 +218,37 @@
 <li><code>self:find_struct_in_parents(name)</code> - equivalent to <code>self:find_in_parents("struct", name)</code></li>
 </ul>
 <p>The same pattern applies for all type names.</p>
+<h3 id="template-methods"><a class="header" href="#template-methods">Template Methods</a></h3>
+<h3 id="selftemplate_parametername-string"><a class="header" href="#selftemplate_parametername-string"><code>self:template_parameter(name: string)</code></a></h3>
+<p>Finds or creates a <a href="templateparameter.html">TemplateParameter</a> child with the given name. Returns the TemplateParameter.</p>
+<h3 id="selftemplate_parameters"><a class="header" href="#selftemplate_parameters"><code>self:template_parameters()</code></a></h3>
+<p>Returns a list of all TemplateParameter children.</p>
+<h3 id="selfis_template"><a class="header" href="#selfis_template"><code>self:is_template()</code></a></h3>
+<p>Returns <code>true</code> if this struct has any template parameters.</p>
+<h3 id="selfinstantiatetype1-type2-"><a class="header" href="#selfinstantiatetype1-type2-"><code>self:instantiate({type1, type2, ...})</code></a></h3>
+<p>Creates a concrete Struct by substituting template parameters with the given types. The new struct is added as a sibling in the same namespace. Returns the instantiated Struct, or <code>nil</code> on failure.</p>
+<h3 id="selfis_template_instance"><a class="header" href="#selfis_template_instance"><code>self:is_template_instance()</code></a></h3>
+<p>Returns <code>true</code> if this struct was created by <code>instantiate()</code>.</p>
+<h3 id="selftemplate_source"><a class="header" href="#selftemplate_source"><code>self:template_source()</code></a></h3>
+<p>Returns the template Struct this was instantiated from, or <code>nil</code>.</p>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
+<pre><code class="language-lua">-- Define a template struct with one type parameter
+local vec = sdk:struct("Vector")
+vec:template_parameter("T")
+vec:variable("x"):type("T")
+vec:variable("y"):type("T")
+vec:variable("z"):type("T")
+
+print(vec:is_template())  -- true
+
+-- Instantiate the template with a concrete type
+local float_t = sdk:type("float"):size(4)
+local vec_float = vec:instantiate({float_t})
+
+print(vec_float:name())              -- "Vector&lt;float&gt;"
+print(vec_float:is_template_instance()) -- true
+print(vec_float:template_source())      -- the original Vector struct
+</code></pre>
 
                     </main>
 

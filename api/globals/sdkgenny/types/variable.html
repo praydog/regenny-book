@@ -35,10 +35,10 @@
             const path_to_root = "../../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../../searchindex-709e84c8.js";
+            window.path_to_searchindex_js = "../../../../searchindex-c397a8c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../../../toc-e769e9f3.js"></script>
+        <script src="../../../../toc-9372c356.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -200,6 +200,10 @@
 <p>Returns <code>true</code> if this variable is a bitfield.</p>
 <h3 id="selfbit_append"><a class="header" href="#selfbit_append"><code>self:bit_append()</code></a></h3>
 <p>Appends this variable as the next bitfield after the previous bitfield in the same storage unit. Returns <code>self</code> for chaining.</p>
+<h3 id="selfdelta--selfdeltavalue-number"><a class="header" href="#selfdelta--selfdeltavalue-number"><code>self:delta()</code> / <code>self:delta(value: number)</code></a></h3>
+<p>Gets or sets the <code>+ N</code> delta value for this variable. In genny schema, this corresponds to the <code>+ delta</code> syntax for relative padding. When called with no arguments, returns the current delta as a number. When called with a number, sets the delta and returns <code>self</code>.</p>
+<h3 id="selfhas_delta"><a class="header" href="#selfhas_delta"><code>self:has_delta()</code></a></h3>
+<p>Returns <code>true</code> if a delta was explicitly set on this variable. This distinguishes <code>+ 0</code> (an intentional zero delta) from no delta at all.</p>
 
                     </main>
 

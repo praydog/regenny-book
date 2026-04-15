@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-709e84c8.js";
+            window.path_to_searchindex_js = "../searchindex-c397a8c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-e769e9f3.js"></script>
+        <script src="../toc-9372c356.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -326,6 +326,39 @@ struct MeshObject 0x1000 {
     BonesHolder bones @ 0xE0   // embedded by value at offset 0xE0
 }
 </code></pre>
+<h3 id="template-types"><a class="header" href="#template-types">Template types</a></h3>
+<p>Define generic structs with <code>template &lt;typename T&gt;</code>. Template parameters act as placeholder types resolved at instantiation:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct WeakPtr 0x10 {
+    T* data @ 0x8
+}
+
+struct Player 0x200 {
+    WeakPtr&lt;Entity&gt; entity_ref
+}
+</code></pre>
+<p>Multiple template parameters work the same way:</p>
+<pre><code class="language-c">template &lt;typename K, typename V&gt;
+struct Pair {
+    K key
+    V value
+}
+</code></pre>
+<p>Templates can inherit from other structs:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct Container : BaseContainer {
+    T* items
+    int count
+}
+</code></pre>
+<p>The <code>+ N</code> relative padding syntax works inside templates. The delta is preserved across all instantiations:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct AlignedValue {
+    T value
+    int metadata + 4
+}
+</code></pre>
+<p>When instantiated (e.g. <code>AlignedValue&lt;float&gt;</code>), the concrete struct has <code>float value</code> followed by 4 bytes of padding before <code>int metadata</code>. Cross-namespace types use dot notation in the angle brackets: <code>Container&lt;engine.Entity&gt;</code>.</p>
 
                     </main>
 

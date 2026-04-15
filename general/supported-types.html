@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-709e84c8.js";
+            window.path_to_searchindex_js = "../searchindex-c397a8c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-e769e9f3.js"></script>
+        <script src="../toc-9372c356.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -284,6 +284,54 @@ struct GameEntity : engine.BaseEntity 0x200 {
     float health
 }
 </code></pre>
+<h2 id="templates"><a class="header" href="#templates">Templates</a></h2>
+<p>Define template structs with <code>template &lt;typename T&gt;</code> before the struct/class keyword:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct WeakPtr {
+    T* data
+    int ref_count
+}
+
+// Multiple template parameters
+template &lt;typename K, typename V&gt;
+struct Pair {
+    K key
+    V value
+}
+</code></pre>
+<p>Template parameters can be used anywhere a type is used — as fields, pointers, and arrays:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct Container {
+    T value
+    T* ptr
+    T[4] items
+    T** indirect
+}
+</code></pre>
+<p>Use a template by providing concrete type arguments in angle brackets:</p>
+<pre><code class="language-c">struct Player {
+    WeakPtr&lt;Entity&gt; target
+    Container&lt;float&gt; data
+    Pair&lt;int, float&gt; stats
+}
+</code></pre>
+<p>Cross-namespace type arguments use dot notation:</p>
+<pre><code class="language-c">struct World {
+    WeakPtr&lt;engine.Entity&gt; active_entity
+    Container&lt;physics.RigidBody&gt; bodies
+}
+</code></pre>
+<p>Template fields support explicit offsets (<code>@</code>) and relative padding (<code>+</code>):</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct TemplatedWrapper 0x100 {
+    int header @ 0x0
+    T payload @ 0x10
+    int footer + 0x8  // 0x8 bytes after the end of T
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Nested template arguments like <code>Foo&lt;Bar&lt;int&gt;&gt;</code> are not supported.</p>
+</blockquote>
 <h2 id="nesting"><a class="header" href="#nesting">Nesting</a></h2>
 <p>Structs, enums and classes can be nested within other structs and classes:</p>
 <pre><code class="language-c">struct Outer {

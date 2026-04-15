@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-709e84c8.js";
+            window.path_to_searchindex_js = "searchindex-c397a8c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-e769e9f3.js"></script>
+        <script src="toc-9372c356.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -403,6 +403,54 @@ struct GameEntity : engine.BaseEntity 0x200 {
     float health
 }
 </code></pre>
+<h2 id="templates"><a class="header" href="#templates">Templates</a></h2>
+<p>Define template structs with <code>template &lt;typename T&gt;</code> before the struct/class keyword:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct WeakPtr {
+    T* data
+    int ref_count
+}
+
+// Multiple template parameters
+template &lt;typename K, typename V&gt;
+struct Pair {
+    K key
+    V value
+}
+</code></pre>
+<p>Template parameters can be used anywhere a type is used — as fields, pointers, and arrays:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct Container {
+    T value
+    T* ptr
+    T[4] items
+    T** indirect
+}
+</code></pre>
+<p>Use a template by providing concrete type arguments in angle brackets:</p>
+<pre><code class="language-c">struct Player {
+    WeakPtr&lt;Entity&gt; target
+    Container&lt;float&gt; data
+    Pair&lt;int, float&gt; stats
+}
+</code></pre>
+<p>Cross-namespace type arguments use dot notation:</p>
+<pre><code class="language-c">struct World {
+    WeakPtr&lt;engine.Entity&gt; active_entity
+    Container&lt;physics.RigidBody&gt; bodies
+}
+</code></pre>
+<p>Template fields support explicit offsets (<code>@</code>) and relative padding (<code>+</code>):</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct TemplatedWrapper 0x100 {
+    int header @ 0x0
+    T payload @ 0x10
+    int footer + 0x8  // 0x8 bytes after the end of T
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Nested template arguments like <code>Foo&lt;Bar&lt;int&gt;&gt;</code> are not supported.</p>
+</blockquote>
 <h2 id="nesting"><a class="header" href="#nesting">Nesting</a></h2>
 <p>Structs, enums and classes can be nested within other structs and classes:</p>
 <pre><code class="language-c">struct Outer {
@@ -626,6 +674,39 @@ struct MeshObject 0x1000 {
     BonesHolder bones @ 0xE0   // embedded by value at offset 0xE0
 }
 </code></pre>
+<h3 id="template-types"><a class="header" href="#template-types">Template types</a></h3>
+<p>Define generic structs with <code>template &lt;typename T&gt;</code>. Template parameters act as placeholder types resolved at instantiation:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct WeakPtr 0x10 {
+    T* data @ 0x8
+}
+
+struct Player 0x200 {
+    WeakPtr&lt;Entity&gt; entity_ref
+}
+</code></pre>
+<p>Multiple template parameters work the same way:</p>
+<pre><code class="language-c">template &lt;typename K, typename V&gt;
+struct Pair {
+    K key
+    V value
+}
+</code></pre>
+<p>Templates can inherit from other structs:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct Container : BaseContainer {
+    T* items
+    int count
+}
+</code></pre>
+<p>The <code>+ N</code> relative padding syntax works inside templates. The delta is preserved across all instantiations:</p>
+<pre><code class="language-c">template &lt;typename T&gt;
+struct AlignedValue {
+    T value
+    int metadata + 4
+}
+</code></pre>
+<p>When instantiated (e.g. <code>AlignedValue&lt;float&gt;</code>), the concrete struct has <code>float value</code> followed by 4 bytes of padding before <code>int metadata</code>. Cross-namespace types use dot notation in the angle brackets: <code>Container&lt;engine.Entity&gt;</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="example-scripts"><a class="header" href="#example-scripts">Example scripts</a></h1>
 <ul>
@@ -928,6 +1009,24 @@ Essentially, it returns <code>self:ptr() + (key * self:type():to():size())</code
 <h3 id="selftype-1"><a class="header" href="#selftype-1"><code>self:type()</code></a></h3>
 <p>Returns the <a href="#sdkgennypointer">sdkgenny.Pointer</a> that this overlay is for.</p>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennyarrayoverlay"><a class="header" href="#sdkgennyarrayoverlay">sdkgenny.ArrayOverlay</a></h1>
+<p>An ArrayOverlay is a special Lua type for interacting with fixed-size array fields. It is returned automatically when accessing an Array-typed field through a <a href="#sdkgennystructoverlay">StructOverlay</a>.</p>
+<pre><code class="language-lua">local arr = overlay.items  -- Array-typed field returns an ArrayOverlay
+print(#arr)        -- element count
+print(arr[0])      -- first element (0-based)
+arr[2] = 42        -- write third element
+</code></pre>
+<h2 id="methods-3"><a class="header" href="#methods-3">Methods</a></h2>
+<h3 id="selfindexn-number"><a class="header" href="#selfindexn-number"><code>self.index(n: number)</code></a></h3>
+<p>Or in other words, <code>self[0]</code>.</p>
+<p>Returns the value at 0-based index <code>n</code>. If the element type is an <code>sdkgenny.Struct</code>, returns a <a href="#sdkgennystructoverlay">StructOverlay</a>. If the element type is an <code>sdkgenny.Pointer</code>, returns a <a href="#sdkgennypointeroverlay">PointerOverlay</a>. Otherwise returns the primitive value directly.</p>
+<p>Returns <code>nil</code> for out-of-bounds indices (when <code>n &lt; 0</code> or <code>n &gt;= count</code>).</p>
+<h3 id="selfnewindexn-number-value-any"><a class="header" href="#selfnewindexn-number-value-any"><code>self.newindex(n: number, value: any)</code></a></h3>
+<p>Or in other words, <code>self[2] = 42</code>.</p>
+<p>Writes <code>value</code> at 0-based index <code>n</code>. No-op for out-of-bounds indices.</p>
+<h3 id="self--__len"><a class="header" href="#self--__len"><code>#self</code> / <code>__len</code></a></h3>
+<p>Returns the number of elements in the array.</p>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="types-1"><a class="header" href="#types-1">Types</a></h1>
 <p>These are the types that make up the sdkgenny type model. All types inherit from <a href="#sdkgennyobject">Object</a>.</p>
 <p>The inheritance hierarchy is:</p>
@@ -975,13 +1074,13 @@ Essentially, it returns <code>self:ptr() + (key * self:type():to():size())</code
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sdkgennyobject"><a class="header" href="#sdkgennyobject">sdkgenny.Object</a></h1>
 <p>The base type that all sdkgenny types inherit from. Provides name access, metadata, and a polymorphic type dispatch system.</p>
-<h2 id="methods-3"><a class="header" href="#methods-3">Methods</a></h2>
+<h2 id="methods-4"><a class="header" href="#methods-4">Methods</a></h2>
 <h3 id="selfname--selfnamenew_name-string"><a class="header" href="#selfname--selfnamenew_name-string"><code>self:name()</code> / <code>self:name(new_name: string)</code></a></h3>
 <p>Gets or sets the object’s name. Returns <code>self</code> when setting.</p>
 <h3 id="selfmetadata"><a class="header" href="#selfmetadata"><code>self:metadata()</code></a></h3>
 <p>Returns the metadata string array for this object (e.g. <code>{"i32"}</code>, <code>{"f32"}</code>, <code>{"utf8*"}</code>).</p>
 <h3 id="selfis_atypename-string"><a class="header" href="#selfis_atypename-string"><code>self:is_a(typename: string)</code></a></h3>
-<p>Returns <code>true</code> if this object is of the given type. Valid type names: <code>typename</code>, <code>type</code>, <code>generic_type</code>, <code>struct</code>, <code>class</code>, <code>enum</code>, <code>enum_class</code>, <code>namespace</code>, <code>reference</code>, <code>pointer</code>, <code>variable</code>, <code>function</code>, <code>virtual_function</code>, <code>static_function</code>, <code>array</code>, <code>parameter</code>, <code>constant</code>.</p>
+<p>Returns <code>true</code> if this object is of the given type. Valid type names: <code>typename</code>, <code>type</code>, <code>generic_type</code>, <code>struct</code>, <code>class</code>, <code>enum</code>, <code>enum_class</code>, <code>namespace</code>, <code>reference</code>, <code>pointer</code>, <code>variable</code>, <code>function</code>, <code>virtual_function</code>, <code>static_function</code>, <code>array</code>, <code>parameter</code>, <code>constant</code>, <code>template_parameter</code>.</p>
 <h3 id="selfastypename-string"><a class="header" href="#selfastypename-string"><code>self:as(typename: string)</code></a></h3>
 <p>Casts this object to the given type. Returns the casted object, or <code>nil</code> if the cast is invalid. Takes the same type names as <code>is_a</code>.</p>
 <h3 id="selffindtypename-string-name-string"><a class="header" href="#selffindtypename-string-name-string"><code>self:find(typename: string, name: string)</code></a></h3>
@@ -998,6 +1097,10 @@ Essentially, it returns <code>self:ptr() + (key * self:type():to():size())</code
 <p>Returns the topmost (outermost) owner of the given type, or <code>nil</code>.</p>
 <h3 id="selfget_alltypename-string"><a class="header" href="#selfget_alltypename-string"><code>self:get_all(typename: string)</code></a></h3>
 <p>Returns all direct children of the given type as a list.</p>
+<h3 id="selfget_comment"><a class="header" href="#selfget_comment"><code>self:get_comment()</code></a></h3>
+<p>Returns the comment string for this object.</p>
+<h3 id="selfset_commentstr-string"><a class="header" href="#selfset_commentstr-string"><code>self:set_comment(str: string)</code></a></h3>
+<p>Sets the comment for this object.</p>
 <h2 id="type-shortcut-methods"><a class="header" href="#type-shortcut-methods">Type shortcut methods</a></h2>
 <p>For every type name listed above, convenience methods are generated that eliminate the string argument. For example, for the type name <code>struct</code>:</p>
 <ul>
@@ -1011,7 +1114,7 @@ Essentially, it returns <code>self:ptr() + (key * self:type():to():size())</code
 <li><code>self:topmost_owner_struct()</code> - equivalent to <code>self:topmost_owner("struct")</code></li>
 <li><code>self:get_all_struct()</code> - equivalent to <code>self:get_all("struct")</code></li>
 </ul>
-<p>The same pattern applies to all type names: <code>typename</code>, <code>type</code>, <code>generic_type</code>, <code>struct</code>, <code>class</code>, <code>enum</code>, <code>enum_class</code>, <code>namespace</code>, <code>reference</code>, <code>pointer</code>, <code>variable</code>, <code>function</code>, <code>virtual_function</code>, <code>static_function</code>, <code>array</code>, <code>parameter</code>, <code>constant</code>.</p>
+<p>The same pattern applies to all type names: <code>typename</code>, <code>type</code>, <code>generic_type</code>, <code>struct</code>, <code>class</code>, <code>enum</code>, <code>enum_class</code>, <code>namespace</code>, <code>reference</code>, <code>pointer</code>, <code>variable</code>, <code>function</code>, <code>virtual_function</code>, <code>static_function</code>, <code>array</code>, <code>parameter</code>, <code>constant</code>, <code>template_parameter</code>.</p>
 <pre><code class="language-lua">local obj = sdk:global_ns():find_type("Foo")
 if obj:is_struct() then
     local s = obj:as_struct()
@@ -1022,14 +1125,14 @@ end
 <h1 id="sdkgennytypename"><a class="header" href="#sdkgennytypename">sdkgenny.Typename</a></h1>
 <p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
 <p>A named entity with control over how its type name is generated.</p>
-<h2 id="methods-4"><a class="header" href="#methods-4">Methods</a></h2>
+<h2 id="methods-5"><a class="header" href="#methods-5">Methods</a></h2>
 <h3 id="selfsimple_typename_generation--selfsimple_typename_generationflag-boolean"><a class="header" href="#selfsimple_typename_generation--selfsimple_typename_generationflag-boolean"><code>self:simple_typename_generation()</code> / <code>self:simple_typename_generation(flag: boolean)</code></a></h3>
 <p>Gets or sets whether to use simple typename generation. Returns <code>self</code> when setting.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sdkgennynamespace"><a class="header" href="#sdkgennynamespace">sdkgenny.Namespace</a></h1>
 <p>Inherits from <a href="#sdkgennytypename">Typename</a>.</p>
 <p>A C++ namespace that can contain types, structs, enums, and nested namespaces.</p>
-<h2 id="methods-5"><a class="header" href="#methods-5">Methods</a></h2>
+<h2 id="methods-6"><a class="header" href="#methods-6">Methods</a></h2>
 <h3 id="selftypename-string"><a class="header" href="#selftypename-string"><code>self:type(name: string)</code></a></h3>
 <p>Finds or creates a named <a href="#sdkgennytype">Type</a> in this namespace.</p>
 <h3 id="selfgeneric_typename-string"><a class="header" href="#selfgeneric_typename-string"><code>self:generic_type(name: string)</code></a></h3>
@@ -1046,7 +1149,7 @@ end
 <h1 id="sdkgennytype"><a class="header" href="#sdkgennytype">sdkgenny.Type</a></h1>
 <p>Inherits from <a href="#sdkgennytypename">Typename</a>.</p>
 <p>A named type with a byte size. Provides factory methods for creating derived reference, pointer, and array types.</p>
-<h2 id="methods-6"><a class="header" href="#methods-6">Methods</a></h2>
+<h2 id="methods-7"><a class="header" href="#methods-7">Methods</a></h2>
 <h3 id="selfsize--selfsizebytes-number"><a class="header" href="#selfsize--selfsizebytes-number"><code>self:size()</code> / <code>self:size(bytes: number)</code></a></h3>
 <p>Gets or sets the byte size of this type. Returns <code>self</code> when setting.</p>
 <h3 id="selfref"><a class="header" href="#selfref"><code>self:ref()</code></a></h3>
@@ -1059,7 +1162,7 @@ end
 <h1 id="sdkgennystruct"><a class="header" href="#sdkgennystruct">sdkgenny.Struct</a></h1>
 <p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
 <p>A C struct type. This is the central type for declaring fields, nested types, and member functions.</p>
-<h2 id="methods-7"><a class="header" href="#methods-7">Methods</a></h2>
+<h2 id="methods-8"><a class="header" href="#methods-8">Methods</a></h2>
 <h3 id="selfsize--selfsizebytes-number-1"><a class="header" href="#selfsize--selfsizebytes-number-1"><code>self:size()</code> / <code>self:size(bytes: number)</code></a></h3>
 <p>Gets or sets the explicit byte size of this struct. A size of <code>0</code> means the size is auto-calculated from the fields. Returns <code>self</code> when setting.</p>
 <h3 id="selfparentparent_struct-sdkgennystruct"><a class="header" href="#selfparentparent_struct-sdkgennystruct"><code>self:parent(parent_struct: sdkgenny.Struct)</code></a></h3>
@@ -1094,6 +1197,37 @@ end
 <li><code>self:find_struct_in_parents(name)</code> - equivalent to <code>self:find_in_parents("struct", name)</code></li>
 </ul>
 <p>The same pattern applies for all type names.</p>
+<h3 id="template-methods"><a class="header" href="#template-methods">Template Methods</a></h3>
+<h3 id="selftemplate_parametername-string"><a class="header" href="#selftemplate_parametername-string"><code>self:template_parameter(name: string)</code></a></h3>
+<p>Finds or creates a <a href="#sdkgennytemplateparameter">TemplateParameter</a> child with the given name. Returns the TemplateParameter.</p>
+<h3 id="selftemplate_parameters"><a class="header" href="#selftemplate_parameters"><code>self:template_parameters()</code></a></h3>
+<p>Returns a list of all TemplateParameter children.</p>
+<h3 id="selfis_template"><a class="header" href="#selfis_template"><code>self:is_template()</code></a></h3>
+<p>Returns <code>true</code> if this struct has any template parameters.</p>
+<h3 id="selfinstantiatetype1-type2-"><a class="header" href="#selfinstantiatetype1-type2-"><code>self:instantiate({type1, type2, ...})</code></a></h3>
+<p>Creates a concrete Struct by substituting template parameters with the given types. The new struct is added as a sibling in the same namespace. Returns the instantiated Struct, or <code>nil</code> on failure.</p>
+<h3 id="selfis_template_instance"><a class="header" href="#selfis_template_instance"><code>self:is_template_instance()</code></a></h3>
+<p>Returns <code>true</code> if this struct was created by <code>instantiate()</code>.</p>
+<h3 id="selftemplate_source"><a class="header" href="#selftemplate_source"><code>self:template_source()</code></a></h3>
+<p>Returns the template Struct this was instantiated from, or <code>nil</code>.</p>
+<h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
+<pre><code class="language-lua">-- Define a template struct with one type parameter
+local vec = sdk:struct("Vector")
+vec:template_parameter("T")
+vec:variable("x"):type("T")
+vec:variable("y"):type("T")
+vec:variable("z"):type("T")
+
+print(vec:is_template())  -- true
+
+-- Instantiate the template with a concrete type
+local float_t = sdk:type("float"):size(4)
+local vec_float = vec:instantiate({float_t})
+
+print(vec_float:name())              -- "Vector&lt;float&gt;"
+print(vec_float:is_template_instance()) -- true
+print(vec_float:template_source())      -- the original Vector struct
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sdkgennyclass"><a class="header" href="#sdkgennyclass">sdkgenny.Class</a></h1>
 <p>Inherits from <a href="#sdkgennystruct">Struct</a>.</p>
@@ -1111,14 +1245,14 @@ print(int_ptr:to():name())     -- prints "int"
 <h1 id="sdkgennyreference"><a class="header" href="#sdkgennyreference">sdkgenny.Reference</a></h1>
 <p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
 <p>A reference type (<code>T&amp;</code>). Wraps a target type.</p>
-<h2 id="methods-8"><a class="header" href="#methods-8">Methods</a></h2>
+<h2 id="methods-9"><a class="header" href="#methods-9">Methods</a></h2>
 <h3 id="selfto--selftotype-sdkgennytype"><a class="header" href="#selfto--selftotype-sdkgennytype"><code>self:to()</code> / <code>self:to(type: sdkgenny.Type)</code></a></h3>
 <p>Gets or sets the type this reference refers to. Returns <code>self</code> when setting.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sdkgennyenum"><a class="header" href="#sdkgennyenum">sdkgenny.Enum</a></h1>
 <p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
 <p>An enumeration type with named integer values.</p>
-<h2 id="methods-9"><a class="header" href="#methods-9">Methods</a></h2>
+<h2 id="methods-10"><a class="header" href="#methods-10">Methods</a></h2>
 <h3 id="selfvaluename-string-val-number"><a class="header" href="#selfvaluename-string-val-number"><code>self:value(name: string, val: number)</code></a></h3>
 <p>Adds an enumerator with the given name and integer value.</p>
 <h3 id="selfvalues"><a class="header" href="#selfvalues"><code>self:values()</code></a></h3>
@@ -1142,7 +1276,7 @@ end
 <h1 id="sdkgennyconstant"><a class="header" href="#sdkgennyconstant">sdkgenny.Constant</a></h1>
 <p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
 <p>A named constant with a type and string value.</p>
-<h2 id="methods-10"><a class="header" href="#methods-10">Methods</a></h2>
+<h2 id="methods-11"><a class="header" href="#methods-11">Methods</a></h2>
 <h3 id="selftypetype-sdkgennytype"><a class="header" href="#selftypetype-sdkgennytype"><code>self:type(type: sdkgenny.Type)</code></a></h3>
 <p>Sets the type of this constant. Returns <code>self</code> for chaining.</p>
 <h3 id="selfvalue--selfvaluev-string"><a class="header" href="#selfvalue--selfvaluev-string"><code>self:value()</code> / <code>self:value(v: string)</code></a></h3>
@@ -1153,7 +1287,7 @@ end
 <h1 id="sdkgennyfunction"><a class="header" href="#sdkgennyfunction">sdkgenny.Function</a></h1>
 <p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
 <p>A member function declaration with return type, parameters, and an optional body.</p>
-<h2 id="methods-11"><a class="header" href="#methods-11">Methods</a></h2>
+<h2 id="methods-12"><a class="header" href="#methods-12">Methods</a></h2>
 <h3 id="selfreturns--selfreturnstype-sdkgennytype"><a class="header" href="#selfreturns--selfreturnstype-sdkgennytype"><code>self:returns()</code> / <code>self:returns(type: sdkgenny.Type)</code></a></h3>
 <p>Gets or sets the return type. Returns <code>self</code> when setting.</p>
 <h3 id="selfprocedure--selfprocedurebody-string"><a class="header" href="#selfprocedure--selfprocedurebody-string"><code>self:procedure()</code> / <code>self:procedure(body: string)</code></a></h3>
@@ -1168,21 +1302,21 @@ end
 <h1 id="sdkgennyvirtualfunction"><a class="header" href="#sdkgennyvirtualfunction">sdkgenny.VirtualFunction</a></h1>
 <p>Inherits from <a href="#sdkgennyfunction">Function</a>.</p>
 <p>A virtual member function. Adds vtable index tracking on top of the base <a href="#sdkgennyfunction">Function</a> methods.</p>
-<h2 id="methods-12"><a class="header" href="#methods-12">Methods</a></h2>
+<h2 id="methods-13"><a class="header" href="#methods-13">Methods</a></h2>
 <h3 id="selfvtable_index--selfvtable_indexindex-number"><a class="header" href="#selfvtable_index--selfvtable_indexindex-number"><code>self:vtable_index()</code> / <code>self:vtable_index(index: number)</code></a></h3>
 <p>Gets or sets the vtable slot index for this virtual function. Returns <code>self</code> when setting.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sdkgennyparameter"><a class="header" href="#sdkgennyparameter">sdkgenny.Parameter</a></h1>
 <p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
 <p>A function parameter with a name and type.</p>
-<h2 id="methods-13"><a class="header" href="#methods-13">Methods</a></h2>
+<h2 id="methods-14"><a class="header" href="#methods-14">Methods</a></h2>
 <h3 id="selftype--selftypetype-sdkgennytype"><a class="header" href="#selftype--selftypetype-sdkgennytype"><code>self:type()</code> / <code>self:type(type: sdkgenny.Type)</code></a></h3>
 <p>Gets or sets this parameter’s type. Returns <code>self</code> when setting.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sdkgennyvariable"><a class="header" href="#sdkgennyvariable">sdkgenny.Variable</a></h1>
 <p>Inherits from <a href="#sdkgennyobject">Object</a>.</p>
 <p>A struct/class member variable with type, offset, and optional bitfield information.</p>
-<h2 id="methods-14"><a class="header" href="#methods-14">Methods</a></h2>
+<h2 id="methods-15"><a class="header" href="#methods-15">Methods</a></h2>
 <h3 id="selftype--selftypetype-sdkgennytype--selftypetypename-string"><a class="header" href="#selftype--selftypetype-sdkgennytype--selftypetypename-string"><code>self:type()</code> / <code>self:type(type: sdkgenny.Type)</code> / <code>self:type(typename: string)</code></a></h3>
 <p>Gets or sets the variable’s type. Accepts either a <a href="#sdkgennytype">Type</a> object or a type name string. Returns <code>self</code> when setting.</p>
 <h3 id="selfoffset--selfoffsetbytes-number"><a class="header" href="#selfoffset--selfoffsetbytes-number"><code>self:offset()</code> / <code>self:offset(bytes: number)</code></a></h3>
@@ -1199,6 +1333,10 @@ end
 <p>Returns <code>true</code> if this variable is a bitfield.</p>
 <h3 id="selfbit_append"><a class="header" href="#selfbit_append"><code>self:bit_append()</code></a></h3>
 <p>Appends this variable as the next bitfield after the previous bitfield in the same storage unit. Returns <code>self</code> for chaining.</p>
+<h3 id="selfdelta--selfdeltavalue-number"><a class="header" href="#selfdelta--selfdeltavalue-number"><code>self:delta()</code> / <code>self:delta(value: number)</code></a></h3>
+<p>Gets or sets the <code>+ N</code> delta value for this variable. In genny schema, this corresponds to the <code>+ delta</code> syntax for relative padding. When called with no arguments, returns the current delta as a number. When called with a number, sets the delta and returns <code>self</code>.</p>
+<h3 id="selfhas_delta"><a class="header" href="#selfhas_delta"><code>self:has_delta()</code></a></h3>
+<p>Returns <code>true</code> if a delta was explicitly set on this variable. This distinguishes <code>+ 0</code> (an intentional zero delta) from no delta at all.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sdkgennygenerictype"><a class="header" href="#sdkgennygenerictype">sdkgenny.GenericType</a></h1>
 <p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
@@ -1207,7 +1345,7 @@ end
 <h1 id="sdkgennyarray"><a class="header" href="#sdkgennyarray">sdkgenny.Array</a></h1>
 <p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
 <p>A fixed-size array type (<code>T[N]</code>).</p>
-<h2 id="methods-15"><a class="header" href="#methods-15">Methods</a></h2>
+<h2 id="methods-16"><a class="header" href="#methods-16">Methods</a></h2>
 <h3 id="selfof--selfofelement_type-sdkgennytype"><a class="header" href="#selfof--selfofelement_type-sdkgennytype"><code>self:of()</code> / <code>self:of(element_type: sdkgenny.Type)</code></a></h3>
 <p>Gets or sets the element type. Returns <code>self</code> when setting.</p>
 <h3 id="selfcount--selfcountn-number"><a class="header" href="#selfcount--selfcountn-number"><code>self:count()</code> / <code>self:count(n: number)</code></a></h3>
@@ -1217,12 +1355,27 @@ end
 <p>Inherits from <a href="#sdkgennyfunction">Function</a>.</p>
 <p>A static member function. Identical to <a href="#sdkgennyfunction">Function</a> in the Lua API – all Function methods are available.</p>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sdkgennytemplateparameter"><a class="header" href="#sdkgennytemplateparameter">sdkgenny.TemplateParameter</a></h1>
+<p>Inherits from <a href="#sdkgennytype">Type</a>.</p>
+<p>A placeholder type representing a template parameter (e.g. <code>T</code> in <code>template &lt;typename T&gt;</code>). Has a size of 0 — it is never emitted directly but is substituted for a concrete type when the template is instantiated.</p>
+<p>TemplateParameter types are created via <code>Struct:template_parameter(name)</code> or automatically by the genny parser when it encounters a <code>template &lt;typename ...&gt;</code> declaration.</p>
+<pre><code class="language-lua">local my_struct = ns:struct("Container")
+local T = my_struct:template_parameter("T")
+
+-- T can be used as a field type in the template definition
+my_struct:field("value"):type(T)
+my_struct:field("ptr"):type(T:ptr())
+my_struct:field("items"):type(T:array():count(4))
+</code></pre>
+<p>TemplateParameter has no additional methods beyond those inherited from <a href="#sdkgennytype">Type</a>. It supports the standard <code>ptr()</code>, <code>ref()</code>, and <code>array()</code> factory methods for building compound types from the placeholder.</p>
+<p>During code generation, template structs emit a <code>template&lt;typename T&gt;</code> prefix in C++ headers. The TemplateParameter itself is skipped — the C++ compiler handles substitution when the template is instantiated.</p>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="types-2"><a class="header" href="#types-2">Types</a></h1>
 <p>These are the ReGenny-specific types available in the scripting API.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="regenny-1"><a class="header" href="#regenny-1">ReGenny</a></h1>
 <p>This is the class used to access the ReGenny API. It can be accessed through the global <code>regenny</code> variable.</p>
-<h2 id="methods-16"><a class="header" href="#methods-16">Methods</a></h2>
+<h2 id="methods-17"><a class="header" href="#methods-17">Methods</a></h2>
 <h3 id="selfprocess"><a class="header" href="#selfprocess"><code>self:process()</code></a></h3>
 <p>Returns the current <a href="#process">Process</a>. Gets upcasted to a <a href="#windowsprocess">WindowsProcess</a> if the process is a Windows process.</p>
 <h3 id="selfaddress-2"><a class="header" href="#selfaddress-2"><code>self:address()</code></a></h3>
@@ -1257,7 +1410,7 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="process"><a class="header" href="#process">Process</a></h1>
 <p>Class referring to the currently attached process in regenny.</p>
-<h2 id="methods-17"><a class="header" href="#methods-17">Methods</a></h2>
+<h2 id="methods-18"><a class="header" href="#methods-18">Methods</a></h2>
 <h3 id="selfprotectaddress-number-size-number-flags-number"><a class="header" href="#selfprotectaddress-number-size-number-flags-number"><code>self:protect(address: number, size: number, flags: number)</code></a></h3>
 <p>Modifies the protection of a region of memory in the process.</p>
 <p>On Windows, the <code>flags</code> are the same as the <code>flNewProtect</code> flags in <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotectex">VirtualProtectEx</a>.</p>
@@ -1320,7 +1473,7 @@ baz.foo.a = baz.foo.a + 1 -- Increments baz.foo.a by 1
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="windowsprocess"><a class="header" href="#windowsprocess">WindowsProcess</a></h1>
 <p>Windows version of the <a href="#process">Process</a> class. Inherits from <a href="#process">Process</a>.</p>
-<h2 id="methods-18"><a class="header" href="#methods-18">Methods</a></h2>
+<h2 id="methods-19"><a class="header" href="#methods-19">Methods</a></h2>
 <h3 id="selfget_typenameobj-number"><a class="header" href="#selfget_typenameobj-number"><code>self:get_typename(obj: number)</code></a></h3>
 <p>Returns the RTTI name of the given object at the given address.</p>
 <h3 id="selfallocate_rwxaddress-number-size-number"><a class="header" href="#selfallocate_rwxaddress-number-size-number"><code>self:allocate_rwx(address: number, size: number)</code></a></h3>
