@@ -192,3 +192,51 @@ struct MeshObject 0x1000 {
     BonesHolder bones @ 0xE0   // embedded by value at offset 0xE0
 }
 ```
+
+
+### Template types
+
+Define generic structs with `template <typename T>`. Template parameters act as placeholder types resolved at instantiation:
+
+```c
+template <typename T>
+struct WeakPtr 0x10 {
+    T* data @ 0x8
+}
+
+struct Player 0x200 {
+    WeakPtr<Entity> entity_ref
+}
+```
+
+Multiple template parameters work the same way:
+
+```c
+template <typename K, typename V>
+struct Pair {
+    K key
+    V value
+}
+```
+
+Templates can inherit from other structs:
+
+```c
+template <typename T>
+struct Container : BaseContainer {
+    T* items
+    int count
+}
+```
+
+The `+ N` relative padding syntax works inside templates. The delta is preserved across all instantiations:
+
+```c
+template <typename T>
+struct AlignedValue {
+    T value
+    int metadata + 4
+}
+```
+
+When instantiated (e.g. `AlignedValue<float>`), the concrete struct has `float value` followed by 4 bytes of padding before `int metadata`. Cross-namespace types use dot notation in the angle brackets: `Container<engine.Entity>`.

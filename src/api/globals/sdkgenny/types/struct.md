@@ -68,3 +68,51 @@ Like [Object](object.md), type-specific shortcut methods are also available. For
 - `self:find_struct_in_parents(name)` - equivalent to `self:find_in_parents("struct", name)`
 
 The same pattern applies for all type names.
+
+
+### Template Methods
+
+### `self:template_parameter(name: string)`
+
+Finds or creates a [TemplateParameter](templateparameter.md) child with the given name. Returns the TemplateParameter.
+
+### `self:template_parameters()`
+
+Returns a list of all TemplateParameter children.
+
+### `self:is_template()`
+
+Returns `true` if this struct has any template parameters.
+
+### `self:instantiate({type1, type2, ...})`
+
+Creates a concrete Struct by substituting template parameters with the given types. The new struct is added as a sibling in the same namespace. Returns the instantiated Struct, or `nil` on failure.
+
+### `self:is_template_instance()`
+
+Returns `true` if this struct was created by `instantiate()`.
+
+### `self:template_source()`
+
+Returns the template Struct this was instantiated from, or `nil`.
+
+### Example
+
+```lua
+-- Define a template struct with one type parameter
+local vec = sdk:struct("Vector")
+vec:template_parameter("T")
+vec:variable("x"):type("T")
+vec:variable("y"):type("T")
+vec:variable("z"):type("T")
+
+print(vec:is_template())  -- true
+
+-- Instantiate the template with a concrete type
+local float_t = sdk:type("float"):size(4)
+local vec_float = vec:instantiate({float_t})
+
+print(vec_float:name())              -- "Vector<float>"
+print(vec_float:is_template_instance()) -- true
+print(vec_float:template_source())      -- the original Vector struct
+```

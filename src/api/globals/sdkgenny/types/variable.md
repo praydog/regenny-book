@@ -37,3 +37,12 @@ Returns `true` if this variable is a bitfield.
 ### `self:bit_append()`
 
 Appends this variable as the next bitfield after the previous bitfield in the same storage unit. Returns `self` for chaining.
+
+
+### `self:delta()` / `self:delta(value: number)`
+
+Gets or sets the `+ N` delta value for this variable. In genny schema, this corresponds to the `+ delta` syntax for relative padding. When called with no arguments, returns the current delta as a number. When called with a number, sets the delta and returns `self`.
+
+### `self:has_delta()`
+
+Returns `true` if a delta was explicitly set on this variable. This distinguishes `+ 0` (an intentional zero delta) from no delta at all.

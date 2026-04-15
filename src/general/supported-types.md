@@ -141,6 +141,70 @@ struct GameEntity : engine.BaseEntity 0x200 {
 }
 ```
 
+## Templates
+
+Define template structs with `template <typename T>` before the struct/class keyword:
+
+```c
+template <typename T>
+struct WeakPtr {
+    T* data
+    int ref_count
+}
+
+// Multiple template parameters
+template <typename K, typename V>
+struct Pair {
+    K key
+    V value
+}
+```
+
+Template parameters can be used anywhere a type is used — as fields, pointers, and arrays:
+
+```c
+template <typename T>
+struct Container {
+    T value
+    T* ptr
+    T[4] items
+    T** indirect
+}
+```
+
+Use a template by providing concrete type arguments in angle brackets:
+
+```c
+struct Player {
+    WeakPtr<Entity> target
+    Container<float> data
+    Pair<int, float> stats
+}
+```
+
+Cross-namespace type arguments use dot notation:
+
+```c
+struct World {
+    WeakPtr<engine.Entity> active_entity
+    Container<physics.RigidBody> bodies
+}
+```
+
+Template fields support explicit offsets (`@`) and relative padding (`+`):
+
+```c
+template <typename T>
+struct TemplatedWrapper 0x100 {
+    int header @ 0x0
+    T payload @ 0x10
+    int footer + 0x8  // 0x8 bytes after the end of T
+}
+```
+
+> **Note:** Nested template arguments like `Foo<Bar<int>>` are not supported.
+
+
 ## Nesting
 
 Structs, enums and classes can be nested within other structs and classes:

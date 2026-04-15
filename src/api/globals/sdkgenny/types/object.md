@@ -14,7 +14,7 @@ Returns the metadata string array for this object (e.g. `{"i32"}`, `{"f32"}`, `{
 
 ### `self:is_a(typename: string)`
 
-Returns `true` if this object is of the given type. Valid type names: `typename`, `type`, `generic_type`, `struct`, `class`, `enum`, `enum_class`, `namespace`, `reference`, `pointer`, `variable`, `function`, `virtual_function`, `static_function`, `array`, `parameter`, `constant`.
+Returns `true` if this object is of the given type. Valid type names: `typename`, `type`, `generic_type`, `struct`, `class`, `enum`, `enum_class`, `namespace`, `reference`, `pointer`, `variable`, `function`, `virtual_function`, `static_function`, `array`, `parameter`, `constant`, `template_parameter`.
 
 ### `self:as(typename: string)`
 
@@ -48,6 +48,14 @@ Returns the topmost (outermost) owner of the given type, or `nil`.
 
 Returns all direct children of the given type as a list.
 
+### `self:get_comment()`
+
+Returns the comment string for this object.
+
+### `self:set_comment(str: string)`
+
+Sets the comment for this object.
+
 ## Type shortcut methods
 
 For every type name listed above, convenience methods are generated that eliminate the string argument. For example, for the type name `struct`:
@@ -62,7 +70,7 @@ For every type name listed above, convenience methods are generated that elimina
 - `self:topmost_owner_struct()` - equivalent to `self:topmost_owner("struct")`
 - `self:get_all_struct()` - equivalent to `self:get_all("struct")`
 
-The same pattern applies to all type names: `typename`, `type`, `generic_type`, `struct`, `class`, `enum`, `enum_class`, `namespace`, `reference`, `pointer`, `variable`, `function`, `virtual_function`, `static_function`, `array`, `parameter`, `constant`.
+The same pattern applies to all type names: `typename`, `type`, `generic_type`, `struct`, `class`, `enum`, `enum_class`, `namespace`, `reference`, `pointer`, `variable`, `function`, `virtual_function`, `static_function`, `array`, `parameter`, `constant`, `template_parameter`.
 
 ```lua
 local obj = sdk:global_ns():find_type("Foo")
